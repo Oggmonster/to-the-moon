@@ -1,0 +1,30 @@
+use inheritance to describe IS-A relations and composition to describe HAS-A relations.
+
+games based around stocks - all enemies are different stocks.
+
+- each level - different paths leading to big boss
+- each step - either enemey, quest (random event), campfire, merchant, treasure
+- player
+ - hp
+ - str, dex 
+ - shield
+ - gold 
+- enemy 
+ - hp
+ - str, dex 
+- cards 
+    - actions: attack, block, weak, vurnable, strength, dex, draw cards 
+    - cost energy
+
+- player round, draw 4 cards - play cards using energy points. attacks - pick enemy to attack 
+- enemy round - either attacks or spell. show enemy intent on player round.
+- round over - gain gold, relic, potion and new card (pick from 3 random)
+- level over - keep all stats and go to next level.
+
+
+
+
+
+
+
+
