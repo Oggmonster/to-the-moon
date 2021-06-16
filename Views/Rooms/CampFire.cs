@@ -1,6 +1,6 @@
 namespace to_the_moon
 {
-    public class Game
+    public class CampFire
     {
 
     }

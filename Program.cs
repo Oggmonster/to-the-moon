@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace to_the_moon
 {
@@ -6,7 +7,8 @@ namespace to_the_moon
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var game = new Game();
+            game.Run();            
         }
     }
 }
