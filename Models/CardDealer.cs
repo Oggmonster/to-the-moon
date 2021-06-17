@@ -17,10 +17,12 @@ namespace to_the_moon
             {
                 if (i % 2 == 0) {
                     cards.Add(new Card("Strike") {
+                        Cost = 1,
                         Damage = 7
                     });
                 } else {
                     cards.Add(new Card("Defend") {
+                        Cost = 1,
                         Block = 7
                     });
                 }                

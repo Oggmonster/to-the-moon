@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace to_the_moon
 {
@@ -30,6 +31,7 @@ namespace to_the_moon
             if (fixedRooms.ContainsKey(stepCount)) {
                 return fixedRooms[stepCount];
             }
+            Console.WriteLine("Where do you want to go?");
             var option = ConsoleOptionPicker.PickOption<string>(GetRandomOptions());
             return options[option];
         }

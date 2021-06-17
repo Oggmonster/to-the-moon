@@ -10,7 +10,7 @@ namespace to_the_moon
 
         public Player (string name, int hp, int str, int dex, Deck deck) : base (name, hp, str, dex, deck) 
         {
-
+            Energy = 4;
         }
 
         public override string ToString()

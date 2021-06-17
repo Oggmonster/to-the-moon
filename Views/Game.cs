@@ -11,19 +11,37 @@ namespace to_the_moon
         */
 
         private int level;
-        private int stepCount = 0;
+        private int stepCount = 1;
         private Player player;
 
         private void TravelMap() {
             //show map - return roomtype
             var roomType = Map.GetARoom(stepCount);
+            if (roomType == RoomType.Combat) {
+                Combat.Go(player, level, stepCount);
+            }
+            if (roomType == RoomType.CampFire) {
+                CampFire.Go(player, level, stepCount);
+            }
+            if (roomType == RoomType.Chance) {
+                Chance.Go(player, level, stepCount);
+            }
+            if (roomType == RoomType.Merchant) {
+                Merchant.Go(player, level, stepCount);
+            }
+            if (roomType == RoomType.Treasure) {
+                Treasure.Go(player, level, stepCount);
+            }
             if(stepCount == 15) {
                 level++;
-                stepCount=0;
+                stepCount=1;
             } else {
                 stepCount++;
             }
             Save();
+            if (player.Health > 0) {
+                TravelMap();
+            }
         }
 
         private void Save() {

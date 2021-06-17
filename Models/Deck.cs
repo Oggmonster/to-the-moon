@@ -12,6 +12,7 @@ namespace to_the_moon
         
         public Deck(List<Card> startingCards) {
             fullDeck = startingCards.ToDictionary(c => c.Id, c => c);
+            discarded = new List<Card>();
         }
 
         private List<Card> Shuffle(List<Card> cards) {
@@ -21,6 +22,7 @@ namespace to_the_moon
 
         public void NewCombat() {
             active = Shuffle(fullDeck.Select(c => c.Value).ToList()).ToDictionary(c => c.Id, c => c);
+            discarded = new List<Card>();
         }
 
         public List<Card> Draw(int count) {
