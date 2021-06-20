@@ -7,13 +7,16 @@ namespace to_the_moon
     {
         //return player and level
         public static (Player player, int level) Go() {
+            Console.Clear();
             Console.WriteLine("To the Mooooon!");
-            Console.WriteLine("______________");
+            Console.WriteLine("______________");            
             var options = new List<string> {
                 "New Game",
                 "Continue",
             };
+            Console.WriteLine("Ctrl + C to exit");
             var option = ConsoleOptionPicker.PickOption<string>(options);
+            Console.Clear();
             return option == "New Game" ? New() : Load();            
         }
 
@@ -27,6 +30,7 @@ namespace to_the_moon
             };
             Console.WriteLine("Pick a fighter");
             var player = ConsoleOptionPicker.PickOption<Player>(players);
+            Console.Clear();
             return (player, 1);
         }
 

@@ -1,31 +1,94 @@
 using System.Collections.Generic;
+using System;
 
 namespace to_the_moon
 {
     public class CardDealer
     {
-        //generates random cards
+        private static Random rnd = new Random();
 
-        public static Card GetRandomCard(int level) {
-            return new Card("Strike");
+        private static Card Strike(int level)
+        {
+            var minDamage = 2 + level;
+            var maxDamage = 10 + level;
+            var damage = rnd.Next(minDamage, maxDamage);
+            return new Card("Strike")
+            {
+                Damage = damage,
+                Cost = 1
+            };
         }
 
-        public static List<Card> GetStartingCards() {
+        private static Card Block(int level)
+        {
+            var minBlock = 2 + level;
+            var maxBlock = 7 + level;
+            var block = rnd.Next(minBlock, maxBlock);
+            return new Card("Block")
+            {
+                Block = block,
+                Cost = 1
+            };
+        }
+
+        private static Card Heal(int level)
+        {
+            var minHeal = 1 + level;
+            var maxHeal = 5 + level;
+            var heal = rnd.Next(minHeal, maxHeal);
+            return new Card("Heal")
+            {
+                Heal = heal,
+                Cost = 2
+            };
+        }
+
+        public static List<Card> GetCards(int level, int count)
+        {
+            var cards = new List<Card>();
+            for (int i = 0; i < count; i++)
+            {
+                var num = rnd.Next(1, 3);
+                switch (num)
+                {
+                    case 1:
+                        cards.Add(Strike(level));
+                        break;
+                    case 2:
+                        cards.Add(Block(level));
+                        break;
+                    case 3:
+                        cards.Add(Heal(level));
+                        break;
+                    default:
+                        cards.Add(Strike(level));
+                        break;
+                }               
+
+            }
+            return cards;
+        }
+
+        public static List<Card> GetStartingCards(int level = 1)
+        {
             var cards = new List<Card>();
             int cardCount = 25;
+            Card card = null;
             for (int i = 0; i < cardCount; i++)
             {
-                if (i % 2 == 0) {
-                    cards.Add(new Card("Strike") {
-                        Cost = 1,
-                        Damage = 7
-                    });
-                } else {
-                    cards.Add(new Card("Defend") {
-                        Cost = 1,
-                        Block = 7
-                    });
-                }                
+                if (i % 2 == 0)
+                {
+                    card = Strike(level);
+                }
+                else if (i % 3 == 0)
+                {
+                    card = Heal(level);
+                }
+                else
+                {
+                    card = Block(level);
+                }
+                cards.Add(card);
             }
             return cards;
         }

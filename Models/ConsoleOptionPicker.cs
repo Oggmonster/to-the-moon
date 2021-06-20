@@ -5,20 +5,28 @@ namespace to_the_moon
 {
     public class ConsoleOptionPicker
     {
-        private static void DisplayOptions<T>(List<T> options) {
+        private static void DisplayOptions<T>(List<T> options, string exitOption) {
             for (int i = 0; i < options.Count; i++)
             {
-                Console.WriteLine($"{i}. {options[i].ToString()}");
+                Console.WriteLine($"{i+1}. {options[i].ToString()}");
             }
+            if (!string.IsNullOrEmpty(exitOption)) {
+                Console.WriteLine($"0. {exitOption}");
+            }
+
         }
-        public static T PickOption<T>(List<T> options) {
-            DisplayOptions<T>(options);
-            Console.Write("Pick one: ");            
+        public static T PickOption<T>(List<T> options, string prompt = "Choose: ", string exitOption = "") {
+            DisplayOptions<T>(options, exitOption);
+            Console.Write(prompt);            
             var option = Console.ReadLine();
             if (int.TryParse(option, out int index)) {
+                if (index == 0) {
+                    return default(T);
+                } else {
+                    index--;
+                }
                 if (index < options.Count && index >= 0) {
-                    var picked = options[index];
-                    Console.Clear();
+                    var picked = options[index];                    
                     return picked;
                 }                                
             }

@@ -9,7 +9,7 @@ namespace to_the_moon
 
         public override string ToString()
         {
-            return $"{Name} - hp: {Health}";
+            return $"{Name} - hp: {Health}/{MaxHealth} def: {Shield} str: {Strength} dex: {Dexterity}";
         }
     }
 }
