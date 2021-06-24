@@ -1,10 +1,13 @@
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace to_the_moon
 {
     public class CardDealer
     {
+        //start with 10 cards 
+        
         private static Random rnd = new Random();
 
         private static Card Strike(int level)
@@ -46,26 +49,14 @@ namespace to_the_moon
         public static List<Card> GetCards(int level, int count)
         {
             var cards = new List<Card>();
+            var commons = CardData.GetAllCommons();
             for (int i = 0; i < count; i++)
-            {
-                var num = rnd.Next(1, 3);
-                switch (num)
-                {
-                    case 1:
-                        cards.Add(Strike(level));
-                        break;
-                    case 2:
-                        cards.Add(Block(level));
-                        break;
-                    case 3:
-                        cards.Add(Heal(level));
-                        break;
-                    default:
-                        cards.Add(Strike(level));
-                        break;
-                }               
-
-            }
+            {                
+                var index = rnd.Next(0, commons.Count);
+                var card = commons[index];                
+                cards.Add(card);                
+                commons.Remove(card);
+            }            
             return cards;
         }
 

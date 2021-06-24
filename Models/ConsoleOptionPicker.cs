@@ -35,5 +35,14 @@ namespace to_the_moon
             return PickOption(options);
         }
 
+        public static bool ConfirmPrompt() {
+            var options = new List<string> {
+                "Yes", 
+                "No"
+            };
+            var option = PickOption<string>(options);
+            return option == "Yes";
+        }
+
     }
 }

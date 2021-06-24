@@ -45,6 +45,11 @@ namespace to_the_moon
             return takenDamage;
         }
 
+        public void NewCombat() {
+            Shield = 0;
+            Deck.NewCombat();
+        }
+
         public bool IsAlive() {
             return Health > 0;
         }

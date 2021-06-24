@@ -14,14 +14,26 @@ namespace to_the_moon
 
     public class Combat
     {
+        private static string title = @"
+ _______  ___   _______  __   __  _______ 
+|       ||   | |       ||  | |  ||       |
+|    ___||   | |    ___||  |_|  ||_     _|
+|   |___ |   | |   | __ |       |  |   |  
+|    ___||   | |   ||  ||       |  |   |  
+|   |    |   | |   |_| ||   _   |  |   |  
+|___|    |___| |_______||__| |__|  |___|  
+";
         //stepcount 15 == boss
 
         private static void ShowStats(Player player, List<Enemy> enemies)
         {
-
+            Console.WriteLine("STATS:");
+            Console.WriteLine();
             Console.WriteLine($"Hero: {player.ToString()}");
+            Console.WriteLine();
             Console.WriteLine("Evil ones:");
             enemies.ForEach(e => Console.WriteLine(e.ToString()));
+            Console.WriteLine();
         }
 
         private static List<Enemy> GetEnemies(int level, int stepCount)
@@ -29,8 +41,7 @@ namespace to_the_moon
             var startingCards = CardDealer.GetStartingCards();
             var deck = new Deck(startingCards);
             var enemies = new List<Enemy> {
-                new Enemy ("TSLA", 10 + level, 10, 5, deck),
-                new Enemy ("AMZ", 12 + level, 23, 24, deck),
+                new Enemy ("TSLA", 5, 10, 5, deck),
             };
             return enemies;
         }
@@ -42,63 +53,103 @@ namespace to_the_moon
                 var card = enemy.Deck.Draw(1).First();
                 CardHandler.PlayCard(card, enemy, new List<Player> { player });
             }
+            Console.WriteLine("ENEMY TURN OVER");
         }
 
         private static void PlayerTurn(Player player, IEnumerable<Enemy> enemies)
-        {
-            player.NewTurn();
+        {            
             var cards = player.Deck.Draw(4);
             while (player.Energy > 0
             && cards.Count > 0
             && enemies.Any(e => e.IsAlive()))
             {
-                if (cards.Any(c => c.Cost <= player.Energy))
-                {
-                    var card = ConsoleOptionPicker.PickOption<Card>(cards, "Pick a card", "End turn");
-                    if (card == null)
-                    {
-                        player.EndTurn();
-                    }
-                    else
-                    {
-                        CardHandler.PlayCard(card, player, enemies);
-                        player.Energy -= card.Cost;
-                        cards.Remove(card);
-
-                    }
-                }
-                else
+                Console.WriteLine();
+                Console.WriteLine($"Energy left {player.Energy}. Your hand:");
+                var card = ConsoleOptionPicker.PickOption<Card>(cards, "Pick a card: ", "End turn");
+                if (card == null)
                 {
                     player.EndTurn();
                 }
-                ShowStats(player, enemies.ToList());
+                else if (card.Cost > player.Energy)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("You don't have enough energy to pick that card. Pick another one or end turn.");
+
+                }
+                else
+                {
+                    Console.WriteLine();
+                    CardHandler.PlayCard(card, player, enemies);
+                    player.Energy -= card.Cost;
+                    cards.Remove(card);
+
+                }
+
             }
         }
 
-        private static void Loot(Player player, int level) {
-            if (!player.IsAlive()) {
+        private static void Loot(Player player, int level)
+        {
+            if (!player.IsAlive())
+            {
                 return;
             }
             Console.Clear();
+            Console.WriteLine(@"
+ ___      _______  _______  _______ 
+|   |    |       ||       ||       |
+|   |    |   _   ||   _   ||_     _|
+|   |    |  | |  ||  | |  |  |   |  
+|   |___ |  |_|  ||  |_|  |  |   |  
+|       ||       ||       |  |   |  
+|_______||_______||_______|  |___|  
+");
             Console.WriteLine("You won the battle! Claim your rewards");
             var rnd = new Random();
             var gold = rnd.Next(5, 100);
             Console.WriteLine($"You found {gold} gold");
-            player.Gold += gold;
+            Console.WriteLine();
+            player.Gold += gold; 
             var newCards = CardDealer.GetCards(level, 4);
             Console.WriteLine("Pick a card to add to your deck");
-            var card = ConsoleOptionPicker.PickOption<Card>(newCards, "Pick card: ");
-            player.Deck.AddCard(card);
-            Console.WriteLine($"{card.Name} added to your deck"); 
+            var card = ConsoleOptionPicker.PickOption<Card>(newCards, "Pick card: ");          
+            AddNewCard(player, card);            
+            Console.WriteLine("Press any key to continue");
+            Console.ReadKey();
+        }
+
+        private static void AddNewCard(Player player, Card card) {            
+            try {
+                player.Deck.AddCard(card);
+                Console.WriteLine($"{card.Name} added to your deck");
+            } catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine();
+                Console.WriteLine("Do you want to replace a card in your deck with the one you selected?");
+                if (ConsoleOptionPicker.ConfirmPrompt()) {
+                    Console.WriteLine();
+                    Console.WriteLine("Select a card you want to remove from your deck");
+                    var allCards = player.Deck.GetAllCards();
+                    var removeCard = ConsoleOptionPicker.PickOption<Card>(allCards);
+                    player.Deck.RemoveCard(removeCard.Id);
+                    Console.WriteLine($"{removeCard.Name} removed");
+                    AddNewCard(player, card);
+                }
+            }
         }
 
         private static void Turn(Player player, List<Enemy> enemies)
         {
+            player.NewTurn();
             ShowStats(player, enemies);
-            Console.WriteLine("Player turn:");
+            Console.WriteLine("PLAYER TURN:");
             PlayerTurn(player, enemies);
-            Console.WriteLine("Enemy turn:");
+            Console.WriteLine();
+            Console.WriteLine("ENEMY TURN:");
             EnemyTurn(enemies, player);
+            Console.WriteLine("Press any key to continue");
+            Console.ReadKey();
+            Console.Clear();
             if (player.IsAlive() && enemies.Any(e => e.IsAlive()))
             {
                 Turn(player, enemies);
@@ -107,15 +158,16 @@ namespace to_the_moon
 
         public static void Go(Player player, int level, int stepCount)
         {
-            Console.WriteLine("Let's fight!");
+            Console.WriteLine(title);
+            Console.WriteLine();
             //get enemies
             var enemies = GetEnemies(level, stepCount);
             //prepare decks for combat
-            player.Deck.NewCombat();
-            player.Shield = 0;
-            enemies.ForEach(e => e.Deck.NewCombat());
+            player.NewCombat();
+            enemies.ForEach(e => e.NewCombat());
             Turn(player, enemies);
             Loot(player, level);
+            Console.Clear();
         }
 
 

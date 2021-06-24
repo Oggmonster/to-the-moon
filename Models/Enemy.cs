@@ -9,6 +9,9 @@ namespace to_the_moon
 
         public override string ToString()
         {
+            if (Health == 0) {
+                return $"{Name} is dead";
+            }
             return $"{Name} - hp: {Health}/{MaxHealth} def: {Shield} str: {Strength} dex: {Dexterity}";
         }
     }

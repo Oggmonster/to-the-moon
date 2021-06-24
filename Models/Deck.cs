@@ -6,13 +6,18 @@ namespace to_the_moon
 {    
     public class Deck
     {
+        //start with 10 cards
+        //max card limit
         private Dictionary<string, Card> fullDeck;
         private Dictionary<string, Card> active;
         private List<Card> discarded; //after active pile is empy - shuffle discarded and add to active
+        private int maxCardLimit;
+        private int minCardLimit = 10;
         
-        public Deck(List<Card> startingCards) {
+        public Deck(List<Card> startingCards) {            
             fullDeck = startingCards.ToDictionary(c => c.Id, c => c);
             discarded = new List<Card>();
+            maxCardLimit = 13;
         }
 
         private List<Card> Shuffle(List<Card> cards) {
@@ -38,11 +43,25 @@ namespace to_the_moon
         }
 
         public void AddCard(Card card) {
+            if (fullDeck.Count >= maxCardLimit) {
+                throw new Exception("Sorry your deck is full. Please remove a card first");
+            }
             fullDeck.Add(card.Id, card);
         }
 
         public void RemoveCard(string id) {
+            if (fullDeck.Count <= minCardLimit) {
+                throw new Exception("Sorry you can't remove anymore cards. You have reached minimum amount");
+            }
             fullDeck.Remove(id);
+        }
+
+        public List<Card> GetAllCards() {
+            return fullDeck.Select(d => d.Value).ToList();
+        }
+
+        public void IncreaseMaxCardLimit(int num) {
+            maxCardLimit += num;
         }
 
     }

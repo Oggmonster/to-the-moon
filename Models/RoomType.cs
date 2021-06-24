@@ -6,6 +6,7 @@ namespace to_the_moon
         Combat,
         Merchant,
         Treasure,
-        CampFire
+        CampFire,
+        Blacksmith
     }
 }

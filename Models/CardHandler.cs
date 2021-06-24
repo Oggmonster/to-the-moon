@@ -16,13 +16,18 @@ namespace to_the_moon
             {                
                 targets.ForEach(d => d.IncomingAttack(attackDamage));
                 Console.WriteLine($"{attacker.Name} attack {string.Join(',', targets.Select(t => t.Name))} with {attackDamage}");
+                Console.WriteLine(string.Join(',', targets.Select(t => $"{t.Name} hp: {t.Health}/{t.MaxHealth} def: {t.Shield}")));
             }
             else
             {
+                if (targets.Count > 1) {
+                    Console.WriteLine("Targets:");
+                }                
                 var defender = targets.Count == 1 ? targets.First() :  ConsoleOptionPicker.PickOption<Character>(targets, "Pick target: ");
                 defender.IncomingAttack(attackDamage);
-                Console.Clear();
+                Console.WriteLine();                
                 Console.WriteLine($"{attacker.Name} attack {defender.Name} with {attackDamage}");
+                Console.WriteLine($"{defender.Name} hp: {defender.Health}/{defender.MaxHealth} def: {defender.Shield}");
             }
             ShowDeath(targets);
         }
@@ -35,13 +40,13 @@ namespace to_the_moon
         private static void HandleDefend(Card card, Character character)
         {
             character.Defend(card.Block);
-            Console.WriteLine($"{character.Name} defend with {card.Block}");
+            Console.WriteLine($"{character.Name} defend with {card.Block}. Shield is now {character.Shield}");
         }
 
         private static void HandleHeal(Card card, Character character) 
         {
             character.Heal(card.Heal);
-            Console.WriteLine($"{character.Name} heal with {card.Heal}");
+            Console.WriteLine($"{character.Name} heal with {card.Heal}. HP {character.Health}/{character.MaxHealth}");
         }
         public static void PlayCard(Card card, Character attacker, IEnumerable<Character> defenders)
         {
