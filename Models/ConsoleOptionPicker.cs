@@ -31,7 +31,7 @@ namespace to_the_moon
                 }                                
             }
             //try again
-            Console.WriteLine("Not a vailid option - please enter a number - try again");
+            Console.WriteLine("Not a valid option - please enter a number - try again");
             return PickOption(options);
         }
 

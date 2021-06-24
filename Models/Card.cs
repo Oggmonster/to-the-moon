@@ -1,4 +1,6 @@
 using System;
+using System.Text;
+
 namespace to_the_moon
 {
     public class Card
@@ -25,11 +27,21 @@ namespace to_the_moon
 
         public override string ToString()
         {
-            var dmg = Damage > 0 ? $" {Damage} damage" : "";
-            var block = Block > 0 ? $" {Block} block" : "";
-            var heal = Heal > 0 ? $" {Heal} heal" : "";
-            return $"{Name} - cost: {Cost}{dmg}{block}{heal}";
+            var sb = new StringBuilder();
+            sb.Append($"{Name}: Cost {Cost}. ");
+            if (Damage > 0) {
+                sb.Append($"Deal {Damage} damage{(IsMultiTarget ? " on all enemies." : ".")} ");
+            }
+            if (Block > 0) {
+                sb.Append($"Add {Block} to shield. ");
+            }
+            if (Heal > 0) {
+                sb.Append($"Heal {Heal} hp. ");
+            }
+            if (DrawCount > 0) {
+                sb.Append($"Draw {DrawCount} {(DrawCount > 1 ? "cards" : "card")}. ");
+            }
+            return sb.ToString();
         }
-
     }
 }

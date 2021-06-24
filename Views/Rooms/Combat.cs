@@ -38,18 +38,26 @@ namespace to_the_moon
 
         private static List<Enemy> GetEnemies(int level, int stepCount)
         {
-            var startingCards = CardDealer.GetStartingCards();
-            var deck = new Deck(startingCards);
-            var enemies = new List<Enemy> {
-                new Enemy ("TSLA", 5, 10, 5, deck),
-            };
+            var enemies = new List<Enemy>();
+            for (int i = 0; i < stepCount; i++)
+            {
+                enemies.Add(EnemyData.GetRandomSimpleton());                
+            }
             return enemies;
         }
 
         private static void EnemyTurn(List<Enemy> enemies, Player player)
         {
+            if (!enemies.Any(e => e.IsAlive()))
+            {
+                return;
+            }
+            Console.WriteLine("ENEMY TURN");
             foreach (var enemy in enemies.Where(e => e.IsAlive()))
             {
+                if (!player.IsAlive()) {
+                    continue;
+                }
                 var card = enemy.Deck.Draw(1).First();
                 CardHandler.PlayCard(card, enemy, new List<Player> { player });
             }
@@ -57,7 +65,7 @@ namespace to_the_moon
         }
 
         private static void PlayerTurn(Player player, IEnumerable<Enemy> enemies)
-        {            
+        {
             var cards = player.Deck.Draw(4);
             while (player.Energy > 0
             && cards.Count > 0
@@ -109,24 +117,29 @@ namespace to_the_moon
             var gold = rnd.Next(5, 100);
             Console.WriteLine($"You found {gold} gold");
             Console.WriteLine();
-            player.Gold += gold; 
+            player.Gold += gold;
             var newCards = CardDealer.GetCards(level, 4);
             Console.WriteLine("Pick a card to add to your deck");
-            var card = ConsoleOptionPicker.PickOption<Card>(newCards, "Pick card: ");          
-            AddNewCard(player, card);            
+            var card = ConsoleOptionPicker.PickOption<Card>(newCards, "Pick card: ");
+            AddNewCard(player, card);
             Console.WriteLine("Press any key to continue");
             Console.ReadKey();
         }
 
-        private static void AddNewCard(Player player, Card card) {            
-            try {
+        private static void AddNewCard(Player player, Card card)
+        {
+            try
+            {
                 player.Deck.AddCard(card);
                 Console.WriteLine($"{card.Name} added to your deck");
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex.Message);
                 Console.WriteLine();
                 Console.WriteLine("Do you want to replace a card in your deck with the one you selected?");
-                if (ConsoleOptionPicker.ConfirmPrompt()) {
+                if (ConsoleOptionPicker.ConfirmPrompt())
+                {
                     Console.WriteLine();
                     Console.WriteLine("Select a card you want to remove from your deck");
                     var allCards = player.Deck.GetAllCards();
@@ -145,7 +158,6 @@ namespace to_the_moon
             Console.WriteLine("PLAYER TURN:");
             PlayerTurn(player, enemies);
             Console.WriteLine();
-            Console.WriteLine("ENEMY TURN:");
             EnemyTurn(enemies, player);
             Console.WriteLine("Press any key to continue");
             Console.ReadKey();

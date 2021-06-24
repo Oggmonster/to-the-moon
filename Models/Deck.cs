@@ -11,13 +11,12 @@ namespace to_the_moon
         private Dictionary<string, Card> fullDeck;
         private Dictionary<string, Card> active;
         private List<Card> discarded; //after active pile is empy - shuffle discarded and add to active
-        private int maxCardLimit;
+        private int maxCardLimit = 20;
         private int minCardLimit = 10;
         
         public Deck(List<Card> startingCards) {            
             fullDeck = startingCards.ToDictionary(c => c.Id, c => c);
             discarded = new List<Card>();
-            maxCardLimit = 13;
         }
 
         private List<Card> Shuffle(List<Card> cards) {

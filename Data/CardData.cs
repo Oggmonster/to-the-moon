@@ -10,6 +10,16 @@ namespace to_the_moon
         when cards are created */
         private static List<Func<Card>> commons = new List<Func<Card>> {
             () =>
+            new Card ("Magic Arrow") {
+                Cost = 1,
+                Damage = 2
+            },
+            () =>
+            new Card ("Wish") {
+                Cost = 1,
+                DrawCount = 2
+            },
+            () =>
             new Card ("Fireball") {
                 Cost = 1,
                 Damage = 7
@@ -51,12 +61,7 @@ namespace to_the_moon
                 IsMultiTarget = true
             },
 
-        };
-
-        public static Card GetRandomCommon()
-        {
-            return commons.FirstOrDefault()();
-        }
+        };        
 
         public static List<Card> GetAllCommons()
         {
