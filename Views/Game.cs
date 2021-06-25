@@ -15,10 +15,11 @@ namespace to_the_moon
         private Player player;
 
         private void TravelMap() {
-            //show map - return roomtype
-            var roomType = Map.GetARoom(stepCount);
+            var place = Map.GoSomewhere(stepCount);
+            var roomType = place.GetRoom();             
             if (roomType == RoomType.Combat) {
-                Combat.Go(player, level, stepCount);
+                var monsters = place.GetMonsters(level, stepCount);
+                Combat.Go(player, monsters, level, stepCount);
             }
             if (roomType == RoomType.CampFire) {
                 CampFire.Go(player, level, stepCount);
@@ -39,7 +40,7 @@ namespace to_the_moon
                 stepCount++;
             }
             Save();
-            if (player.Health > 0) {
+            if (player.IsAlive()) {
                 TravelMap();
             }
         }

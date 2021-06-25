@@ -46,16 +46,13 @@ namespace to_the_moon
             };
         }
 
-        public static List<Card> GetCards(int level, int count)
+        public static List<Card> GetCards(int level, int count, RoleType role = RoleType.Beast)
         {
             var cards = new List<Card>();
-            var commons = CardData.GetAllCommons();
             for (int i = 0; i < count; i++)
-            {                
-                var index = rnd.Next(0, commons.Count);
-                var card = commons[index];                
-                cards.Add(card);                
-                commons.Remove(card);
+            { 
+                var card = CardData.GetRandomCardByRole(role);  
+                cards.Add(card);
             }            
             return cards;
         }

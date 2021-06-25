@@ -25,7 +25,7 @@ namespace to_the_moon
 ";
         //stepcount 15 == boss
 
-        private static void ShowStats(Player player, List<Enemy> enemies)
+        private static void ShowStats(Player player, List<Monster> enemies)
         {
             Console.WriteLine("STATS:");
             Console.WriteLine();
@@ -36,17 +36,7 @@ namespace to_the_moon
             Console.WriteLine();
         }
 
-        private static List<Enemy> GetEnemies(int level, int stepCount)
-        {
-            var enemies = new List<Enemy>();
-            for (int i = 0; i < stepCount; i++)
-            {
-                enemies.Add(EnemyData.GetRandomSimpleton());                
-            }
-            return enemies;
-        }
-
-        private static void EnemyTurn(List<Enemy> enemies, Player player)
+        private static void EnemyTurn(List<Monster> enemies, Player player)
         {
             if (!enemies.Any(e => e.IsAlive()))
             {
@@ -64,7 +54,7 @@ namespace to_the_moon
             Console.WriteLine("ENEMY TURN OVER");
         }
 
-        private static void PlayerTurn(Player player, IEnumerable<Enemy> enemies)
+        private static void PlayerTurn(Player player, IEnumerable<Monster> enemies)
         {
             var cards = player.Deck.Draw(4);
             while (player.Energy > 0
@@ -151,7 +141,7 @@ namespace to_the_moon
             }
         }
 
-        private static void Turn(Player player, List<Enemy> enemies)
+        private static void Turn(Player player, List<Monster> enemies)
         {
             player.NewTurn();
             ShowStats(player, enemies);
@@ -168,16 +158,13 @@ namespace to_the_moon
             }
         }
 
-        public static void Go(Player player, int level, int stepCount)
+        public static void Go(Player player, List<Monster> monsters, int level, int stepCount)
         {
             Console.WriteLine(title);
-            Console.WriteLine();
-            //get enemies
-            var enemies = GetEnemies(level, stepCount);
-            //prepare decks for combat
+            Console.WriteLine();           
             player.NewCombat();
-            enemies.ForEach(e => e.NewCombat());
-            Turn(player, enemies);
+            monsters.ForEach(e => e.NewCombat());
+            Turn(player, monsters);
             Loot(player, level);
             Console.Clear();
         }

@@ -48,6 +48,13 @@ namespace to_the_moon
             character.Heal(card.Heal);
             Console.WriteLine($"{character.Name} heal with {card.Heal}. HP {character.Health}/{character.MaxHealth}");
         }
+
+        private static void HandleBoost(Card card, Character character) 
+        {
+            card.Boost(character);
+            Console.WriteLine($"{character.Name} play {card.Name}. {card.Description}."); 
+            Console.WriteLine(character.ToString());
+        }
         public static void PlayCard(Card card, Character attacker, IEnumerable<Character> defenders)
         {
             //check card attributes and do stuff 
@@ -62,6 +69,9 @@ namespace to_the_moon
             if (card.Heal > 0)
             {
                 HandleHeal(card, attacker);
+            }
+            if (card.Boost != null) {
+                HandleBoost(card, attacker);
             }
         }
 

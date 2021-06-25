@@ -6,19 +6,20 @@ namespace to_the_moon
         public string Name { get; private set; }
         public int Health { get; set; }
         public int MaxHealth { get; set; }
-        public int Shield { get; set; }
-        public int Strength { get; set; }
-        public int Dexterity { get; set; }
+        public int Shield { get; set; }        
         public Deck Deck { get; private set; }
-
-        public Character(string name, int hp, int str, int dex, Deck deck) {
-            Name = name;
+        public Role Role { get; set; }
+        public virtual void  SetHealth(int constitution) {
+            var hp = (constitution * 2) + 5;
             Health = hp;
             MaxHealth = hp;
-            Strength = str;
-            Dexterity = dex;
+        }
+        public Character(string name, Role role, Deck deck) {
+            Name = name;
+            Role = role;            
             Deck = deck;
             Shield = 0;
+            SetHealth(role.Constitution);
         }
 
         public int CalculateDamage(int damage) {
@@ -52,6 +53,14 @@ namespace to_the_moon
 
         public bool IsAlive() {
             return Health > 0;
+        }
+
+        public override string ToString()
+        {
+            if (Health == 0) {
+                return $"{Name} is dead";
+            }
+            return $"{Name} - hp: {Health}/{MaxHealth} def: {Shield} {Role.ToString()}";
         }
 
     }

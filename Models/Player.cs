@@ -1,3 +1,4 @@
+using System;
 namespace to_the_moon
 {
     public class Player : Character
@@ -7,8 +8,16 @@ namespace to_the_moon
 
         //potions
         //relics
+        public override void SetHealth(int constitution) {    
+            var rand = new Random();
+            var min = 15 + constitution;
+            var max = 30 + constitution;
+            var hp = rand.Next(min, max);
+            Health = hp;
+            MaxHealth = hp;
+        }
 
-        public Player (string name, int hp, int str, int dex, Deck deck) : base (name, hp, str, dex, deck) 
+        public Player (string name, Role role, Deck deck) : base (name, role, deck) 
         {
             Energy = 3;
         }
@@ -20,11 +29,5 @@ namespace to_the_moon
         public void EndTurn() {
             Energy = 0;
         }
-
-        public override string ToString()
-        {
-            return $"{Name} - e: {Energy} hp: {Health}/{MaxHealth} def: {Shield} str: {Strength} dex: {Dexterity}";
-        }
-
     }
 }

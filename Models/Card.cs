@@ -1,12 +1,15 @@
 using System;
-using System.Text;
 
 namespace to_the_moon
 {
+    //lvl 1 - 5. 
+    //types weapon, spell, summon
+    //weapon can be ranged and meele
     public class Card
     {
         public string Id { get; private set; }
         public string Name { get; private set; }
+        public string Description { get; set; }
         public int Damage { get; set; }
         public int Block { get; set; }
         public int Heal { get; set; }
@@ -14,10 +17,12 @@ namespace to_the_moon
         public int DexterityModify { get; set; }// -- " --
         public int TurnCount { get; set; }
         public int DrawCount { get; set; }
+        public int SummonCount { get; set; }
         public int Cost { get; set; }
         public bool IsReplayable { get; set; } //can play this multilple times during combat
         public bool IsMultiTarget { get; set; }
-
+        public CardType CardType { get; set; }
+        public Action<Character> Boost { get; set; }
         public Card(string name)
         {
             Name = name;
@@ -26,22 +31,8 @@ namespace to_the_moon
         }        
 
         public override string ToString()
-        {
-            var sb = new StringBuilder();
-            sb.Append($"{Name}: Cost {Cost}. ");
-            if (Damage > 0) {
-                sb.Append($"Deal {Damage} damage{(IsMultiTarget ? " on all enemies." : ".")} ");
-            }
-            if (Block > 0) {
-                sb.Append($"Add {Block} to shield. ");
-            }
-            if (Heal > 0) {
-                sb.Append($"Heal {Heal} hp. ");
-            }
-            if (DrawCount > 0) {
-                sb.Append($"Draw {DrawCount} {(DrawCount > 1 ? "cards" : "card")}. ");
-            }
-            return sb.ToString();
+        {            
+            return $"{Name}: Cost {Cost}. {Description}";
         }
     }
 }

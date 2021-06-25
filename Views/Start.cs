@@ -31,11 +31,11 @@ namespace to_the_moon
             return option == "New Game" ? New() : Load();
         }
 
-        private static List<Card> SelectStartingCards() {            
+        private static List<Card> SelectStartingCards(RoleType role) {            
             var cards = new List<Card>();
             var limit = 10;
             while(cards.Count < limit) {
-                var newCards = CardDealer.GetCards(1, 4);                
+                var newCards = CardDealer.GetCards(1, 4, role);                
                 Console.WriteLine("Pick a card you want in your deck");
                 var card = ConsoleOptionPicker.PickOption<Card>(newCards, "Pick card: ");
                 cards.Add(card);
@@ -57,6 +57,12 @@ namespace to_the_moon
             return GetName();
         }
 
+        private static Role GetRole() {
+            Console.WriteLine("Select a role that fits your character");
+            var role = ConsoleOptionPicker.PickOption<Role>(PlayerRoles.GetPlayerRoles());
+            return role;
+        }
+
         private static (Player player, int level) New()
         {
             var header = @"
@@ -68,12 +74,16 @@ namespace to_the_moon
 | | |   ||   |___ |   _   |  |     |_ |   _   ||   _   ||       ||       ||   |___ | | |   ||   |_| ||   |___ |   |  | |
 |_|  |__||_______||__| |__|  |_______||__| |__||__| |__||_______||_______||_______||_|  |__||_______||_______||___|  |_|
 ";
+            
             Console.WriteLine(header);
-            var name = GetName();
             Console.WriteLine();
-            var startingCards = SelectStartingCards();
+            var role = GetRole();
+            Console.WriteLine();
+            var name = GetName();            
+            Console.WriteLine();
+            var startingCards = SelectStartingCards(role.RoleType);
             var deck = new Deck(startingCards);
-            var player = new Player(name, 30, 0, 0, deck);
+            var player = new Player(name, role, deck);
             Console.Clear();
             return (player, 1);
         }
@@ -81,7 +91,13 @@ namespace to_the_moon
         private static (Player player, int level) Load()
         {
             //read json from file or something
-            return (new Player("hej", 1, 1, 1, new Deck(new List<Card> { new Card("hejs") })), 1);
+            return (new Player("hej", new Role {
+                RoleType = RoleType.Warrior,
+                Strength = 1,
+                Dexterity = 1,
+                Constitution = 1,
+                Intelligence = 1
+            }, new Deck(new List<Card> { new Card("hejs") })), 1);
         }
 
     }

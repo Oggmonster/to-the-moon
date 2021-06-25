@@ -21,6 +21,9 @@ games based around stocks - all enemies are different stocks.
 - round over - gain gold, relic, potion and new card (pick from 3 random)
 - level over - keep all stats and go to next level.
 
+- summon minions
+
+
 
 
 
