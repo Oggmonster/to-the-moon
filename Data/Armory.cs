@@ -78,5 +78,30 @@ namespace to_the_moon
             Name = "Staff",
             Type = WeaponType.Magic
         };
+
+        //legendarys
+
+        public static Weapon Windforce => new Weapon
+        {
+            Damage = 20,
+            Name = "Windforce",
+            Type = WeaponType.Ranged
+        };
+
+        public static Weapon Excalibur => new Weapon
+        {
+            Damage = 25,
+            Name = "Excalibur",
+            Type = WeaponType.Meele
+        };
+
+        public static Weapon Starfire => new Weapon
+        {
+            Damage = 18,
+            Name = "Starfire",
+            Type = WeaponType.Magic
+        };
+
+
     }
 }

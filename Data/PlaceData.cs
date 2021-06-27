@@ -54,7 +54,19 @@ namespace to_the_moon
                     RoleType.Troll,
                     RoleType.Creep
                 }
-            }
+            },
+            () => new Place {
+                PlaceType = PlaceType.Cave,
+                Description = "A giant pile of gold and shimmery things. Is there perhaps a dragon nearby?",
+                RoomProbabilities = new List<RoomProbability>
+                {
+                    new RoomProbability {
+                        Start = 0,
+                        End = 100,
+                        RoomType = RoomType.Treasure
+                    }
+                }
+            },
         };
 
         private static List<Func<Place>> bossPlaces = new List<Func<Place>> {
@@ -77,16 +89,12 @@ namespace to_the_moon
 
         public static Place GetRandomPlace()
         {
-            var random = new Random();
-            var index = random.Next(0, places.Count);
-            return places[index]();
+            return OptionPicker.PickRandomOption<Func<Place>>(places)();
         }
 
         public static Place GetRandomBossPlace()
         {
-            var random = new Random();
-            var index = random.Next(0, bossPlaces.Count);
-            return bossPlaces[index]();
+            return OptionPicker.PickRandomOption<Func<Place>>(bossPlaces)();            
         }
     }
 }

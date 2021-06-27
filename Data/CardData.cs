@@ -143,7 +143,7 @@ namespace to_the_moon
                     return new List<Card>();
                 }
             },
-        }; 
+        };
 
         private static List<Func<Card>> commons = new List<Func<Card>> {
             () =>
@@ -151,8 +151,8 @@ namespace to_the_moon
                 Cost = 0,
                 Description = "Always hits its target",
                 CardType = CardType.Skill,
-                Execute = (attacker, defenders) => {                    
-                    CardActions.MagicAttack(attacker, defenders, 1, 1);                    
+                Execute = (attacker, defenders) => {
+                    CardActions.MagicAttack(attacker, defenders, 1, 1);
                     return new List<Card>();
                 }
             },
@@ -161,8 +161,8 @@ namespace to_the_moon
                 Cost = 1,
                 Description = "Never hits the same spot twice",
                 CardType = CardType.Skill,
-                Execute = (attacker, defenders) => {                    
-                    CardActions.MagicAttack(attacker, defenders, 1, 3);                    
+                Execute = (attacker, defenders) => {
+                    CardActions.MagicAttack(attacker, defenders, 1, 3);
                     return new List<Card>();
                 }
             },
@@ -171,8 +171,8 @@ namespace to_the_moon
                 Cost = 1,
                 Description = "Burn baby burn!",
                 CardType = CardType.Skill,
-                Execute = (attacker, defenders) => {                    
-                    CardActions.MagicAttack(attacker, defenders, 1, 4);                    
+                Execute = (attacker, defenders) => {
+                    CardActions.MagicAttack(attacker, defenders, 1, 4);
                     return new List<Card>();
                 }
             },
@@ -181,9 +181,9 @@ namespace to_the_moon
                 Cost = 2,
                 Description = "Electricity for everyone",
                 CardType = CardType.Skill,
-                Execute = (attacker, defenders) => {       
-                    var aliveCount = defenders.Where(d => d.IsAlive()).Count();             
-                    CardActions.MagicAttack(attacker, defenders, aliveCount, 2);                    
+                Execute = (attacker, defenders) => {
+                    var aliveCount = defenders.Where(d => d.IsAlive()).Count();
+                    CardActions.MagicAttack(attacker, defenders, aliveCount, 2);
                     return new List<Card>();
                 }
             },
@@ -192,8 +192,8 @@ namespace to_the_moon
                 Cost = 0,
                 Description = "Without sin",
                 CardType = CardType.Skill,
-                Execute = (attacker, defenders) => {                    
-                    CardActions.RangedAttack(attacker, defenders, 1, 1);                    
+                Execute = (attacker, defenders) => {
+                    CardActions.RangedAttack(attacker, defenders, 1, 1);
                     return new List<Card>();
                 }
             },
@@ -202,8 +202,8 @@ namespace to_the_moon
                 Cost = 1,
                 Description = "Won't stop",
                 CardType = CardType.Skill,
-                Execute = (attacker, defenders) => {                    
-                    CardActions.RangedAttack(attacker, defenders, 1, 3);                    
+                Execute = (attacker, defenders) => {
+                    CardActions.RangedAttack(attacker, defenders, 1, 3);
                     return new List<Card>();
                 }
             },
@@ -212,8 +212,8 @@ namespace to_the_moon
                 Cost = 1,
                 Description = "Right between the eyes",
                 CardType = CardType.Skill,
-                Execute = (attacker, defenders) => {                    
-                    CardActions.RangedAttack(attacker, defenders, 1, 7);                    
+                Execute = (attacker, defenders) => {
+                    CardActions.RangedAttack(attacker, defenders, 1, 7);
                     return new List<Card>();
                 }
             },
@@ -222,8 +222,8 @@ namespace to_the_moon
                 Cost = 0,
                 Description = "Like a ninja",
                 CardType = CardType.Skill,
-                Execute = (attacker, defenders) => {                    
-                    CardActions.MeeleAttack(attacker, defenders, 1, 1);                    
+                Execute = (attacker, defenders) => {
+                    CardActions.MeeleAttack(attacker, defenders, 1, 1);
                     return new List<Card>();
                 }
             },
@@ -232,8 +232,8 @@ namespace to_the_moon
                 Cost = 1,
                 Description = "Put all weight behind it",
                 CardType = CardType.Skill,
-                Execute = (attacker, defenders) => {                    
-                    CardActions.MeeleAttack(attacker, defenders, 1, 3);                    
+                Execute = (attacker, defenders) => {
+                    CardActions.MeeleAttack(attacker, defenders, 1, 3);
                     return new List<Card>();
                 }
             },
@@ -242,8 +242,8 @@ namespace to_the_moon
                 Cost = 1,
                 Description = "Waving that pointy thing like a crazy person",
                 CardType = CardType.Skill,
-                Execute = (attacker, defenders) => {                    
-                    CardActions.MeeleAttack(attacker, defenders, 2, 2);                    
+                Execute = (attacker, defenders) => {
+                    CardActions.MeeleAttack(attacker, defenders, 2, 2);
                     return new List<Card>();
                 }
             },
@@ -252,8 +252,8 @@ namespace to_the_moon
                 Cost = 1,
                 Description = "Devastating blow",
                 CardType = CardType.Skill,
-                Execute = (attacker, defenders) => {                    
-                    CardActions.MeeleAttack(attacker, defenders, 1, 8);                    
+                Execute = (attacker, defenders) => {
+                    CardActions.MeeleAttack(attacker, defenders, 1, 8);
                     return new List<Card>();
                 }
             },
@@ -333,14 +333,24 @@ namespace to_the_moon
             },
         };
 
-        private static List<Func<Card>> rangers = new List<Func<Card>> {            
+        private static List<Func<Card>> rangers = new List<Func<Card>> {
             () =>
             new Card ("Elemental Arrow") {
                 Cost = 0,
                 Description = "Pierces through armor",
                 CardType = CardType.Skill,
-                Execute = (attacker, defenders) => {                    
-                    CardActions.RangedAttack(attacker, defenders, 1, 3);                    
+                Execute = (attacker, defenders) => {
+                    CardActions.RangedAttack(attacker, defenders, 1, 3);
+                    return new List<Card>();
+                }
+            },
+            () =>
+            new Card ("Hungering Arrow") {
+                Cost = 1,
+                Description = "Fire a magically imbued arrow",
+                CardType = CardType.Skill,
+                Execute = (attacker, defenders) => {
+                    CardActions.RangedAttack(attacker, defenders, 1, 5);
                     return new List<Card>();
                 }
             },
@@ -349,8 +359,8 @@ namespace to_the_moon
                 Cost = 1,
                 Description = "Two arrows is better than one",
                 CardType = CardType.Skill,
-                Execute = (attacker, defenders) => {                    
-                    CardActions.RangedAttack(attacker, defenders, 2, 3);                    
+                Execute = (attacker, defenders) => {
+                    CardActions.RangedAttack(attacker, defenders, 2, 3);
                     return new List<Card>();
                 }
             },
@@ -359,9 +369,39 @@ namespace to_the_moon
                 Cost = 1,
                 Description = "One arrow for each enemy",
                 CardType = CardType.Skill,
-                Execute = (attacker, defenders) => {       
-                    var aliveCount = defenders.Where(d => d.IsAlive()).Count();             
-                    CardActions.RangedAttack(attacker, defenders, aliveCount, 2);                    
+                Execute = (attacker, defenders) => {
+                    var aliveCount = defenders.Where(d => d.IsAlive()).Count();
+                    CardActions.RangedAttack(attacker, defenders, aliveCount, 2);
+                    return new List<Card>();
+                }
+            },
+            () =>
+            new Card ("Impale") {
+                Cost = 1,
+                Description = "Knife right in the gut",
+                CardType = CardType.Skill,
+                Execute = (attacker, defenders) => {
+                    CardActions.MeeleAttack(attacker, defenders, 1, 4);
+                    return new List<Card>();
+                }
+            },
+            () =>
+            new Card ("Vengeance") {
+                Cost = 1,
+                Description = "Furiosly hack and slash",
+                CardType = CardType.Skill,
+                Execute = (attacker, defenders) => {
+                    CardActions.MeeleAttack(attacker, defenders, 1, 5);
+                    return new List<Card>();
+                }
+            },
+            () =>
+            new Card ("Poision Dagger") {
+                Cost = 2,
+                Description = "Are you an assassin?",
+                CardType = CardType.Skill,
+                Execute = (attacker, defenders) => {
+                    CardActions.MeeleAttack(attacker, defenders, 1, 10);
                     return new List<Card>();
                 }
             },
@@ -370,16 +410,38 @@ namespace to_the_moon
                 Cost = 2,
                 Description = "Spin and let the arrows fly",
                 CardType = CardType.Skill,
-                Execute = (attacker, defenders) => {       
-                    var aliveCount = defenders.Where(d => d.IsAlive()).Count();             
-                    CardActions.RangedAttack(attacker, defenders, aliveCount, 4);                    
+                Execute = (attacker, defenders) => {
+                    var aliveCount = defenders.Where(d => d.IsAlive()).Count();
+                    CardActions.RangedAttack(attacker, defenders, aliveCount, 4);
+                    return new List<Card>();
+                }
+            },
+            () =>
+            new Card ("Cluster Arrow") {
+                Cost = 2,
+                Description = "Fire a cluster arrow that explodes",
+                CardType = CardType.Skill,
+                Execute = (attacker, defenders) => {
+                    var aliveCount = defenders.Where(d => d.IsAlive()).Count();
+                    CardActions.RangedAttack(attacker, defenders, aliveCount, 6);
+                    return new List<Card>();
+                }
+            },
+            () =>
+            new Card ("Fan of Knives") {
+                Cost = 1,
+                Description = "Throw knives out in a spiral around you",
+                CardType = CardType.Skill,
+                Execute = (attacker, defenders) => {
+                    var aliveCount = defenders.Where(d => d.IsAlive()).Count();
+                    CardActions.RangedAttack(attacker, defenders, aliveCount, 1);
                     return new List<Card>();
                 }
             },
             () =>
             new Card ("Cloak") {
                 Cost = 2,
-                Description = "Almost become invisible",                
+                Description = "Almost become invisible",
                 CardType = CardType.Spell,
                 Execute = (attacker, _) => {
                     Console.WriteLine($"{attacker.Name} increase defence with {attacker.Defend(7, attacker.CombatState.Dexterity)} and heal {attacker.Heal(6)} hp");
@@ -387,16 +449,50 @@ namespace to_the_moon
                 }
             },
             () =>
+            new Card ("Perfectionist") {
+                Cost = 2,
+                Description = "You feel healthy",
+                CardType = CardType.Spell,
+                Execute = (attacker, _) => {
+                    Console.WriteLine($"{attacker.Name} increase defence with {attacker.Defend(12, attacker.CombatState.Dexterity)} and heal {attacker.Heal(12)} hp");
+                    return new List<Card>();
+                }
+            },
+            () =>
             new Card ("Mooooar Cards!") {
-                Cost = 0,
-                Description = "You get a card! Yooou get a card! And yoooou get a card!",                
+                Cost = 1,
+                Description = "You get a card! Yooou get a card! And yoooou get a card!",
                 CardType = CardType.Spell,
                 Execute = (attacker, _) => {
                     var cards = attacker.Deck.Draw(3);
                     Console.WriteLine($"{attacker.Name} draw {string.Join(',', cards.Select(c => c.Name))}");
                     return cards;
                 }
+            },
+            () =>
+            new Card ("Steady Aim") {
+                Cost = 0,
+                Description = "Keep your focus",
+                CardType = CardType.Spell,
+                Execute = (attacker, _) => {
+                    attacker.Energy += 3;
+                    Console.WriteLine($"{attacker.Name}, +3 energy");
+                    return new List<Card>();
+                }
             }
+        };
+
+        private static List<Func<Card>> warriors = new List<Func<Card>> {
+            () =>
+            new Card ("Lucky shot") {
+                Cost = 0,
+                Description = "This arrow just might hit",
+                CardType = CardType.Skill,
+                Execute = (attacker, defenders) => {
+                    CardActions.RangedAttack(attacker, defenders, 1, 2);
+                    return new List<Card>();
+                }
+            },
         };
 
         public static Card GetRandomWeaponCard()
@@ -410,11 +506,13 @@ namespace to_the_moon
         }
 
         public static Card GetRandomCardByRole(RoleType role)
-        {            
+        {
             switch (role)
             {
                 case RoleType.Ranger:
                     return OptionPicker.PickRandomOption<Func<Card>>(rangers)();
+                case RoleType.Warrior:
+                    return OptionPicker.PickRandomOption<Func<Card>>(warriors)();
                 default:
                     return OptionPicker.PickRandomOption<Func<Card>>(commons)();
             }

@@ -15,9 +15,15 @@ namespace to_the_moon
         public static void Go(Player player, int level, int stepCount) {
             Console.WriteLine(title);
             Console.WriteLine();
+            var artifact = LostTreasure.GetRandomArtifact();
+            Console.WriteLine($"You find {artifact.ToString()}. Do you want it?");
+            if (OptionPicker.ConfirmPrompt()) {
+                player.Artifacts.Add(artifact);
+                Console.WriteLine($"{artifact.Name} added");
+            }
+            Console.WriteLine("Press any key to continue");
             Console.ReadKey();
             Console.Clear();
-            //find a relic
         }
 
     }

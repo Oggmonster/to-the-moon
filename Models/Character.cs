@@ -1,17 +1,21 @@
 using System;
+using System.Collections.Generic;
+
 namespace to_the_moon
 {
     public class Character
     {
         private Random rnd = new Random();
         public int Energy { get; set; }
+        public int MaxEnergy { get; set; }
         public string Name { get; private set; }
         public int Health { get; set; }
         public int MaxHealth { get; set; }
         public int Shield { get; set; }
         public Deck Deck { get; private set; }
         public Role Role { get; set; }
-        public CombatState CombatState { get; set; }
+        public CombatState CombatState { get; set; }        
+        public List<Artifact> Artifacts { get; set; }
         public virtual void SetHealth(int constitution)
         {
             var hp = (constitution * 2) + 5;
@@ -20,11 +24,13 @@ namespace to_the_moon
         }
         public Character(string name, Role role, Deck deck)
         {
+            MaxEnergy = 3;
             Name = name;
             Role = role;
             Deck = deck;
             Shield = 0;
             SetHealth(role.Constitution);
+            Artifacts = new List<Artifact>();
         }
 
         public int CalculateDamage(int damage, int boost)
@@ -59,11 +65,16 @@ namespace to_the_moon
             return takenDamage;
         }
 
-        public void NewCombat()
+        private void ApplyArtifacts() {
+            Artifacts.ForEach(a => a.Execute(CombatState));
+        }
+
+        public virtual void NewCombat()
         {
             Shield = 0;
             Deck.NewCombat();
             CombatState = new CombatState(Role);
+            ApplyArtifacts();
         }
 
         public bool IsAlive()
@@ -73,7 +84,7 @@ namespace to_the_moon
 
         public void NewTurn()
         {
-            Energy = 3;
+            Energy = MaxEnergy;
         }
 
         public void EndTurn()

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+
 namespace to_the_moon
 {
     public class Player : Character
@@ -6,8 +8,6 @@ namespace to_the_moon
         
         public int Gold { get; set; }
 
-        //potions
-        //relics
         public override void SetHealth(int constitution) {    
             var rand = new Random();
             var min = 30 + constitution;
@@ -15,10 +15,11 @@ namespace to_the_moon
             var hp = rand.Next(min, max);
             Health = hp;
             MaxHealth = hp;
-        }
+        }        
 
         public Player (string name, Role role, Deck deck) : base (name, role, deck) 
         {            
+            
         }
     }
 }
