@@ -45,11 +45,30 @@ namespace to_the_moon
             Console.WriteLine("ENEMY TURN");
             foreach (var enemy in enemies.Where(e => e.IsAlive()))
             {
-                if (!player.IsAlive()) {
+                if (!player.IsAlive())
+                {
                     continue;
                 }
-                var card = enemy.Deck.Draw(1).First();
-                CardHandler.PlayCard(card, enemy, new List<Player> { player });
+                var cards = enemy.Deck.Draw(2);
+                enemy.NewTurn();
+                while (enemy.Energy > 0
+            && cards.Count > 0
+            && player.IsAlive())
+                {
+                    var card = OptionPicker.PickRandomOption<Card>(cards);
+                    cards.Remove(card);
+                    if (card.Cost <= enemy.Energy)
+                    {
+                        enemy.Energy -= card.Cost;
+                        cards.Remove(card);
+                        var newCards = card.Execute(enemy, new List<Player> { player });
+                        if (newCards.Count > 0)
+                        {
+                            cards.AddRange(newCards);
+                        }
+                    }
+                }
+
             }
             Console.WriteLine("ENEMY TURN OVER");
         }
@@ -63,7 +82,7 @@ namespace to_the_moon
             {
                 Console.WriteLine();
                 Console.WriteLine($"Energy left {player.Energy}. Your hand:");
-                var card = ConsoleOptionPicker.PickOption<Card>(cards, "Pick a card: ", "End turn");
+                var card = OptionPicker.PickOption<Card>(cards, "Pick a card: ", "End turn");
                 if (card == null)
                 {
                     player.EndTurn();
@@ -77,12 +96,14 @@ namespace to_the_moon
                 else
                 {
                     Console.WriteLine();
-                    CardHandler.PlayCard(card, player, enemies);
                     player.Energy -= card.Cost;
                     cards.Remove(card);
-
+                    var newCards = card.Execute(player, enemies);
+                    if (newCards.Count > 0)
+                    {
+                        cards.AddRange(newCards);
+                    }
                 }
-
             }
         }
 
@@ -108,9 +129,9 @@ namespace to_the_moon
             Console.WriteLine($"You found {gold} gold");
             Console.WriteLine();
             player.Gold += gold;
-            var newCards = CardDealer.GetCards(level, 4);
+            var newCards = CardDealer.GetRewardCards(level, 4, player.Role.RoleType);
             Console.WriteLine("Pick a card to add to your deck");
-            var card = ConsoleOptionPicker.PickOption<Card>(newCards, "Pick card: ");
+            var card = OptionPicker.PickOption<Card>(newCards, "Pick card: ");
             AddNewCard(player, card);
             Console.WriteLine("Press any key to continue");
             Console.ReadKey();
@@ -128,12 +149,12 @@ namespace to_the_moon
                 Console.WriteLine(ex.Message);
                 Console.WriteLine();
                 Console.WriteLine("Do you want to replace a card in your deck with the one you selected?");
-                if (ConsoleOptionPicker.ConfirmPrompt())
+                if (OptionPicker.ConfirmPrompt())
                 {
                     Console.WriteLine();
                     Console.WriteLine("Select a card you want to remove from your deck");
                     var allCards = player.Deck.GetAllCards();
-                    var removeCard = ConsoleOptionPicker.PickOption<Card>(allCards);
+                    var removeCard = OptionPicker.PickOption<Card>(allCards);
                     player.Deck.RemoveCard(removeCard.Id);
                     Console.WriteLine($"{removeCard.Name} removed");
                     AddNewCard(player, card);
@@ -161,7 +182,7 @@ namespace to_the_moon
         public static void Go(Player player, List<Monster> monsters, int level, int stepCount)
         {
             Console.WriteLine(title);
-            Console.WriteLine();           
+            Console.WriteLine();
             player.NewCombat();
             monsters.ForEach(e => e.NewCombat());
             Turn(player, monsters);

@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace to_the_moon
 {
-    public class ConsoleOptionPicker
+    public class OptionPicker
     {
         private static void DisplayOptions<T>(List<T> options, string exitOption) {
             for (int i = 0; i < options.Count; i++)
@@ -33,6 +34,15 @@ namespace to_the_moon
             //try again
             Console.WriteLine("Not a valid option - please enter a number - try again");
             return PickOption(options);
+        }
+
+        public static T PickRandomOption<T>(List<T> options) {
+            if (options.Count == 1) {
+                return options.First();
+            }
+            var random = new Random();
+            var index = random.Next(0, options.Count);
+            return options[index];
         }
 
         public static bool ConfirmPrompt() {

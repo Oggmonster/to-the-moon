@@ -26,31 +26,17 @@ namespace to_the_moon
             };
             Console.WriteLine("Ctrl + C to exit");
             Console.WriteLine();
-            var option = ConsoleOptionPicker.PickOption<string>(options);
+            var option = OptionPicker.PickOption<string>(options);
             Console.Clear();
             return option == "New Game" ? New() : Load();
-        }
-
-        private static List<Card> SelectStartingCards(RoleType role) {            
-            var cards = new List<Card>();
-            var limit = 10;
-            while(cards.Count < limit) {
-                var newCards = CardDealer.GetCards(1, 4, role);                
-                Console.WriteLine("Pick a card you want in your deck");
-                var card = ConsoleOptionPicker.PickOption<Card>(newCards, "Pick card: ");
-                cards.Add(card);
-                Console.WriteLine($"{card.Name} added. {cards.Count}/{limit}.");
-                Console.WriteLine();
-            }
-            return cards;
-        }
+        }       
 
         private static string GetName() {
             Console.WriteLine("What do you want to call yourself?");
             var name = Console.ReadLine();
             Console.WriteLine();
             Console.WriteLine($"{name} is it?");
-            if(ConsoleOptionPicker.ConfirmPrompt()) {
+            if(OptionPicker.ConfirmPrompt()) {
                 return name;
             }
             Console.WriteLine();
@@ -59,7 +45,7 @@ namespace to_the_moon
 
         private static Role GetRole() {
             Console.WriteLine("Select a role that fits your character");
-            var role = ConsoleOptionPicker.PickOption<Role>(PlayerRoles.GetPlayerRoles());
+            var role = OptionPicker.PickOption<Role>(PlayerRoles.GetPlayerRoles());
             return role;
         }
 
@@ -81,8 +67,7 @@ namespace to_the_moon
             Console.WriteLine();
             var name = GetName();            
             Console.WriteLine();
-            var startingCards = SelectStartingCards(role.RoleType);
-            var deck = new Deck(startingCards);
+            var deck = CardDealer.GetStartingDeck(8, 8, 4, role.RoleType);
             var player = new Player(name, role, deck);
             Console.Clear();
             return (player, 1);

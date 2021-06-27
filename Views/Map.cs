@@ -41,7 +41,7 @@ namespace to_the_moon
             }
             Console.WriteLine("You look around and see many places to travel.");
             Console.WriteLine();
-            var place = ConsoleOptionPicker.PickOption<Place>(GetRandomPlaces());
+            var place = OptionPicker.PickOption<Place>(GetRandomPlaces());
             Console.Clear();
             return place;
         }

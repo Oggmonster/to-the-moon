@@ -5,13 +5,11 @@ using System;
 namespace to_the_moon
 {    
     public class Deck
-    {
-        //start with 10 cards
-        //max card limit
+    {        
         private Dictionary<string, Card> fullDeck;
         private Dictionary<string, Card> active;
         private List<Card> discarded; //after active pile is empy - shuffle discarded and add to active
-        private int maxCardLimit = 20;
+        private int maxCardLimit = 25;
         private int minCardLimit = 10;
         
         public Deck(List<Card> startingCards) {            
@@ -50,7 +48,7 @@ namespace to_the_moon
 
         public void RemoveCard(string id) {
             if (fullDeck.Count <= minCardLimit) {
-                throw new Exception("Sorry you can't remove anymore cards. You have reached minimum amount");
+                throw new Exception("Sorry you can't remove any cards. You have reached minimum amount");
             }
             fullDeck.Remove(id);
         }

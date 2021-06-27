@@ -21,7 +21,7 @@ namespace to_the_moon
 
         public List<Monster> GetMonsters(int level, int stepCount) {
             var rnd = new Random();            
-            var monsterCount = stepCount == 15 ? 1 : rnd.Next(1, stepCount + 1);            
+            var monsterCount = stepCount == 15 ? 1 : Math.Min(6, rnd.Next(1, stepCount + 1));            
             var monsters = new List<Monster>();
             for (int i = 0; i < monsterCount; i++)
             {

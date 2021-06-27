@@ -9,8 +9,7 @@ namespace to_the_moon
         public int Dexterity { get; set; } //add to shield and ranged dmg
         public int Intelligence { get; set; } //add to spell damage
         public int Constitution { get; set; } //add to healing
-        public RoleType RoleType { get; set; }
-        public List<RoleType> StrongAgainst { get; set; }
+        public RoleType RoleType { get; set; }        
         public List<RoleType> WeekAgainst { get; set; }
 
         public override string ToString()
