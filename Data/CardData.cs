@@ -150,7 +150,7 @@ namespace to_the_moon
             new Card ("Magic Arrow") {
                 Cost = 0,
                 Description = "Always hits its target",
-                CardType = CardType.Skill,
+                CardType = CardType.Magic,
                 Execute = (attacker, defenders) => {
                     CardActions.MagicAttack(attacker, defenders, 1, 1);
                     return new List<Card>();
@@ -160,7 +160,7 @@ namespace to_the_moon
             new Card ("Lightning strike") {
                 Cost = 1,
                 Description = "Never hits the same spot twice",
-                CardType = CardType.Skill,
+                CardType = CardType.Magic,
                 Execute = (attacker, defenders) => {
                     CardActions.MagicAttack(attacker, defenders, 1, 3);
                     return new List<Card>();
@@ -170,7 +170,7 @@ namespace to_the_moon
             new Card ("Fireball") {
                 Cost = 1,
                 Description = "Burn baby burn!",
-                CardType = CardType.Skill,
+                CardType = CardType.Magic,
                 Execute = (attacker, defenders) => {
                     CardActions.MagicAttack(attacker, defenders, 1, 4);
                     return new List<Card>();
@@ -180,7 +180,7 @@ namespace to_the_moon
             new Card ("Chain Lightning") {
                 Cost = 2,
                 Description = "Electricity for everyone",
-                CardType = CardType.Skill,
+                CardType = CardType.Magic,
                 Execute = (attacker, defenders) => {
                     var aliveCount = defenders.Where(d => d.IsAlive()).Count();
                     CardActions.MagicAttack(attacker, defenders, aliveCount, 2);
@@ -191,7 +191,7 @@ namespace to_the_moon
             new Card ("Stone throw") {
                 Cost = 0,
                 Description = "Without sin",
-                CardType = CardType.Skill,
+                CardType = CardType.Ranged,
                 Execute = (attacker, defenders) => {
                     CardActions.RangedAttack(attacker, defenders, 1, 1);
                     return new List<Card>();
@@ -201,7 +201,7 @@ namespace to_the_moon
             new Card ("Sure shot") {
                 Cost = 1,
                 Description = "Won't stop",
-                CardType = CardType.Skill,
+                CardType = CardType.Ranged,
                 Execute = (attacker, defenders) => {
                     CardActions.RangedAttack(attacker, defenders, 1, 3);
                     return new List<Card>();
@@ -211,7 +211,7 @@ namespace to_the_moon
             new Card ("Sniper bullet") {
                 Cost = 1,
                 Description = "Right between the eyes",
-                CardType = CardType.Skill,
+                CardType = CardType.Ranged,
                 Execute = (attacker, defenders) => {
                     CardActions.RangedAttack(attacker, defenders, 1, 7);
                     return new List<Card>();
@@ -221,7 +221,7 @@ namespace to_the_moon
             new Card ("Slash") {
                 Cost = 0,
                 Description = "Like a ninja",
-                CardType = CardType.Skill,
+                CardType = CardType.Meele,
                 Execute = (attacker, defenders) => {
                     CardActions.MeeleAttack(attacker, defenders, 1, 1);
                     return new List<Card>();
@@ -231,7 +231,7 @@ namespace to_the_moon
             new Card ("Bash") {
                 Cost = 1,
                 Description = "Put all weight behind it",
-                CardType = CardType.Skill,
+                CardType = CardType.Meele,
                 Execute = (attacker, defenders) => {
                     CardActions.MeeleAttack(attacker, defenders, 1, 3);
                     return new List<Card>();
@@ -241,7 +241,7 @@ namespace to_the_moon
             new Card ("Frenzy") {
                 Cost = 1,
                 Description = "Waving that pointy thing like a crazy person",
-                CardType = CardType.Skill,
+                CardType = CardType.Meele,
                 Execute = (attacker, defenders) => {
                     CardActions.MeeleAttack(attacker, defenders, 2, 2);
                     return new List<Card>();
@@ -251,7 +251,7 @@ namespace to_the_moon
             new Card ("Crush") {
                 Cost = 1,
                 Description = "Devastating blow",
-                CardType = CardType.Skill,
+                CardType = CardType.Meele,
                 Execute = (attacker, defenders) => {
                     CardActions.MeeleAttack(attacker, defenders, 1, 8);
                     return new List<Card>();
@@ -338,7 +338,7 @@ namespace to_the_moon
             new Card ("Elemental Arrow") {
                 Cost = 0,
                 Description = "Pierces through armor",
-                CardType = CardType.Skill,
+                CardType = CardType.Ranged,
                 Execute = (attacker, defenders) => {
                     CardActions.RangedAttack(attacker, defenders, 1, 3);
                     return new List<Card>();
@@ -348,7 +348,7 @@ namespace to_the_moon
             new Card ("Hungering Arrow") {
                 Cost = 1,
                 Description = "Fire a magically imbued arrow",
-                CardType = CardType.Skill,
+                CardType = CardType.Ranged,
                 Execute = (attacker, defenders) => {
                     CardActions.RangedAttack(attacker, defenders, 1, 5);
                     return new List<Card>();
@@ -358,7 +358,7 @@ namespace to_the_moon
             new Card ("Double Shot") {
                 Cost = 1,
                 Description = "Two arrows is better than one",
-                CardType = CardType.Skill,
+                CardType = CardType.Ranged,
                 Execute = (attacker, defenders) => {
                     CardActions.RangedAttack(attacker, defenders, 2, 3);
                     return new List<Card>();
@@ -368,7 +368,7 @@ namespace to_the_moon
             new Card ("Multishot") {
                 Cost = 1,
                 Description = "One arrow for each enemy",
-                CardType = CardType.Skill,
+                CardType = CardType.Ranged,
                 Execute = (attacker, defenders) => {
                     var aliveCount = defenders.Where(d => d.IsAlive()).Count();
                     CardActions.RangedAttack(attacker, defenders, aliveCount, 2);
@@ -379,7 +379,7 @@ namespace to_the_moon
             new Card ("Impale") {
                 Cost = 1,
                 Description = "Knife right in the gut",
-                CardType = CardType.Skill,
+                CardType = CardType.Meele,
                 Execute = (attacker, defenders) => {
                     CardActions.MeeleAttack(attacker, defenders, 1, 4);
                     return new List<Card>();
@@ -389,7 +389,7 @@ namespace to_the_moon
             new Card ("Vengeance") {
                 Cost = 1,
                 Description = "Furiosly hack and slash",
-                CardType = CardType.Skill,
+                CardType = CardType.Meele,
                 Execute = (attacker, defenders) => {
                     CardActions.MeeleAttack(attacker, defenders, 1, 5);
                     return new List<Card>();
@@ -399,7 +399,7 @@ namespace to_the_moon
             new Card ("Poision Dagger") {
                 Cost = 2,
                 Description = "Are you an assassin?",
-                CardType = CardType.Skill,
+                CardType = CardType.Meele,
                 Execute = (attacker, defenders) => {
                     CardActions.MeeleAttack(attacker, defenders, 1, 10);
                     return new List<Card>();
@@ -409,7 +409,7 @@ namespace to_the_moon
             new Card ("Strafe") {
                 Cost = 2,
                 Description = "Spin and let the arrows fly",
-                CardType = CardType.Skill,
+                CardType = CardType.Ranged,
                 Execute = (attacker, defenders) => {
                     var aliveCount = defenders.Where(d => d.IsAlive()).Count();
                     CardActions.RangedAttack(attacker, defenders, aliveCount, 4);
@@ -420,7 +420,7 @@ namespace to_the_moon
             new Card ("Cluster Arrow") {
                 Cost = 2,
                 Description = "Fire a cluster arrow that explodes",
-                CardType = CardType.Skill,
+                CardType = CardType.Ranged,
                 Execute = (attacker, defenders) => {
                     var aliveCount = defenders.Where(d => d.IsAlive()).Count();
                     CardActions.RangedAttack(attacker, defenders, aliveCount, 6);
@@ -431,7 +431,7 @@ namespace to_the_moon
             new Card ("Fan of Knives") {
                 Cost = 1,
                 Description = "Throw knives out in a spiral around you",
-                CardType = CardType.Skill,
+                CardType = CardType.Ranged,
                 Execute = (attacker, defenders) => {
                     var aliveCount = defenders.Where(d => d.IsAlive()).Count();
                     CardActions.RangedAttack(attacker, defenders, aliveCount, 1);
@@ -487,7 +487,7 @@ namespace to_the_moon
             new Card ("Lucky shot") {
                 Cost = 0,
                 Description = "This arrow just might hit",
-                CardType = CardType.Skill,
+                CardType = CardType.Ranged,
                 Execute = (attacker, defenders) => {
                     CardActions.RangedAttack(attacker, defenders, 1, 2);
                     return new List<Card>();

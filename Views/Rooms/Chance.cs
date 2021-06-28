@@ -15,9 +15,13 @@ namespace to_the_moon
         public static void Go(Player player, int level, int stepCount) {
             Console.WriteLine(title);
             Console.WriteLine();
-            Console.ReadKey();
-            Console.Clear();
+            var mystery = Mysteries.GetRandomMystery();
+            if (mystery == null) {
+                Console.WriteLine("Strange. Nothing here");
+            } else {
+                mystery(player);
+            }            
+            OptionPicker.AnyKeyToContinue();
         }
-
     }
 }

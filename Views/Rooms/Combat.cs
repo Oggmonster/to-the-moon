@@ -132,34 +132,7 @@ namespace to_the_moon
             var newCards = CardDealer.GetRewardCards(level, 4, player.Role.RoleType);
             Console.WriteLine("Pick a card to add to your deck");
             var card = OptionPicker.PickOption<Card>(newCards, "Pick card: ");
-            AddNewCard(player, card);
-            Console.WriteLine("Press any key to continue");
-            Console.ReadKey();
-        }
-
-        private static void AddNewCard(Player player, Card card)
-        {
-            try
-            {
-                player.Deck.AddCard(card);
-                Console.WriteLine($"{card.Name} added to your deck");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine();
-                Console.WriteLine("Do you want to replace a card in your deck with the one you selected?");
-                if (OptionPicker.ConfirmPrompt())
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("Select a card you want to remove from your deck");
-                    var allCards = player.Deck.GetAllCards();
-                    var removeCard = OptionPicker.PickOption<Card>(allCards);
-                    player.Deck.RemoveCard(removeCard.Id);
-                    Console.WriteLine($"{removeCard.Name} removed");
-                    AddNewCard(player, card);
-                }
-            }
+            CardDealer.AddNewCard(player, card);
         }
 
         private static void Turn(Player player, List<Monster> enemies)
@@ -187,7 +160,7 @@ namespace to_the_moon
             monsters.ForEach(e => e.NewCombat());
             Turn(player, monsters);
             Loot(player, level);
-            Console.Clear();
+            OptionPicker.AnyKeyToContinue();
         }
 
 

@@ -37,6 +37,9 @@ namespace to_the_moon
         }
 
         public static T PickRandomOption<T>(List<T> options) {
+            if (options.Count == 0) {
+                return default(T);
+            }
             if (options.Count == 1) {
                 return options.First();
             }
@@ -52,6 +55,12 @@ namespace to_the_moon
             };
             var option = PickOption<string>(options);
             return option == "Yes";
+        }
+
+        public static void AnyKeyToContinue() {
+            Console.WriteLine("Press any key to continue");
+            Console.ReadKey();
+            Console.Clear();
         }
 
     }

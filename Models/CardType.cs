@@ -5,6 +5,8 @@ namespace to_the_moon
         Weapon,
         Spell,
         Summon,
-        Skill, //combine weapon with skill for extra damage
+        Ranged,
+        Meele,
+        Magic
     }
 }

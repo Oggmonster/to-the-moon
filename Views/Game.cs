@@ -33,6 +33,9 @@ namespace to_the_moon
             if (roomType == RoomType.Treasure) {
                 Treasure.Go(player, level, stepCount);
             }
+            if (roomType == RoomType.Blacksmith) {
+                Blacksmith.Go(player);
+            }
             if(stepCount == 15) {
                 level++;
                 stepCount=1;

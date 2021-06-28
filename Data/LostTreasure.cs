@@ -30,6 +30,13 @@ namespace to_the_moon
                     state.Intelligence += 2;
                 }
             },
+            new Artifact ("Peculiar stone") {
+                Description = "No idea what this funny looking thing does",
+                Execute = (state) => {
+                    state.Dexterity += 10;
+                    state.Constitution += 10;
+                }
+            },
             new Artifact ("Obisidan ring of the Zodiac") {
                 Description = "Add 5 to all attributes",
                 Execute = (state) => {
@@ -37,6 +44,18 @@ namespace to_the_moon
                     state.Strength += 5;
                     state.Dexterity += 5;
                     state.Constitution += 5;
+                }
+            },
+            new Artifact ("Amulet of the sun") {
+                Description = "Increase energy by 1",
+                Execute = (state) => {
+                    state.MaxEnergy += 1;
+                }
+            },
+            new Artifact ("Necklace of the stars") {
+                Description = "Increase energy by 2",
+                Execute = (state) => {
+                    state.MaxEnergy += 2;
                 }
             },
             new Artifact ("Windforce") {
@@ -48,7 +67,7 @@ namespace to_the_moon
             new Artifact ("Excalibur") {
                 Description = "A mighty sword",
                 Execute = (state) => {
-                    state.Weapon = Armory.Excalibur;
+                    state.Weapon = Armory.Excalibur;                    
                 }
             },
             new Artifact ("Starfire") {
@@ -61,7 +80,9 @@ namespace to_the_moon
 
         public static Artifact GetRandomArtifact()
         {
-            return OptionPicker.PickRandomOption<Artifact>(artifacts);
+            var artifact = OptionPicker.PickRandomOption<Artifact>(artifacts);
+            artifacts.Remove(artifact);
+            return artifact;
         }
 
 

@@ -24,7 +24,7 @@ namespace to_the_moon
 
         public override string ToString()
         {            
-            return $"{Name}: Cost {Cost}. {Description}";
+            return $"{Name} ({CardType.ToString()}): Cost {Cost}. {Description}";
         }
     }
 }

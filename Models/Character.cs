@@ -5,10 +5,9 @@ namespace to_the_moon
 {
     public class Character
     {
-        private Random rnd = new Random();
-        public int Energy { get; set; }
-        public int MaxEnergy { get; set; }
+        private Random rnd = new Random();        
         public string Name { get; private set; }
+        public int Energy { get; set; }
         public int Health { get; set; }
         public int MaxHealth { get; set; }
         public int Shield { get; set; }
@@ -23,12 +22,12 @@ namespace to_the_moon
             MaxHealth = hp;
         }
         public Character(string name, Role role, Deck deck)
-        {
-            MaxEnergy = 3;
+        {            
             Name = name;
             Role = role;
             Deck = deck;
             Shield = 0;
+            CombatState = new CombatState(Role);
             SetHealth(role.Constitution);
             Artifacts = new List<Artifact>();
         }
@@ -84,7 +83,7 @@ namespace to_the_moon
 
         public void NewTurn()
         {
-            Energy = MaxEnergy;
+            Energy = CombatState.MaxEnergy;
         }
 
         public void EndTurn()

@@ -19,12 +19,7 @@ namespace to_the_moon
         private static List<Place> GetRandomPlaces() {
             var rnd = new Random();
             var num = rnd.Next(2, 6);
-            var options = new List<Place>();
-            for (int i = 0; i < num; i++)
-            {                
-                options.Add(PlaceData.GetRandomPlace());                                
-            }
-            return options;
+            return PlaceData.GetAllPlaces().OrderBy(p => rnd.Next()).Take(num).Select(p => p()).ToList();            
         }
 
         public static Place GoSomewhere(int stepCount) {
@@ -41,6 +36,7 @@ namespace to_the_moon
             }
             Console.WriteLine("You look around and see many places to travel.");
             Console.WriteLine();
+            
             var place = OptionPicker.PickOption<Place>(GetRandomPlaces());
             Console.Clear();
             return place;

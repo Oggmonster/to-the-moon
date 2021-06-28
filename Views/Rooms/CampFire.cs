@@ -15,8 +15,9 @@ namespace to_the_moon
         public static void Go(Player player, int level, int stepCount) {
             Console.WriteLine(title);
             Console.WriteLine();
-            Console.ReadKey();
-            Console.Clear();
+            Console.WriteLine("You make a fire and take some well deserved rest");
+            Console.WriteLine($"{player.Name} heal {player.Heal(20)} hp");
+            OptionPicker.AnyKeyToContinue();
         }
 
     }

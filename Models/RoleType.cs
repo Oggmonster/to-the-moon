@@ -14,6 +14,8 @@ namespace to_the_moon
         Creep,
         Undead,
         Elf,
-        Boss
+        Boss, 
+        Dragon,
+        Dwarf
     }
 }

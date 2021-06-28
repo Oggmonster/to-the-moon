@@ -3,7 +3,8 @@ using System.Collections.Generic;
 namespace to_the_moon
 {
     public class CombatState
-    {        
+    {   
+        public int MaxEnergy { get; set; }
         public int Strength { get; set; } //add to weapon meele attack damage 
         public int Dexterity { get; set; } //add to shield and ranged dmg
         public int Intelligence { get; set; } //add to spell damage
@@ -17,6 +18,7 @@ namespace to_the_moon
             Intelligence = role.Intelligence;
             Constitution = role.Constitution;
             Minions = new List<Monster>();
+            MaxEnergy = 3;
         }
 
         public override string ToString()

@@ -6,7 +6,7 @@ namespace to_the_moon
 {
     public class MonsterData
     {
-        
+
         private static List<Func<Monster>> creeps = new List<Func<Monster>> {
             () => new Monster ("Slime", new Role {
                 RoleType = RoleType.Creep,
@@ -15,6 +15,30 @@ namespace to_the_moon
                 Constitution = 1,
                 Intelligence = 0
             }, CardDealer.GetStartingDeck(3, 3, 0, RoleType.Creep))
+        };
+
+        private static List<Func<Monster>> undeads = new List<Func<Monster>> {
+            () => new Monster ("Skeleton", new Role {
+                RoleType = RoleType.Undead,
+                Strength = 4,
+                Dexterity = 1,
+                Constitution = 1,
+                Intelligence = 1
+            }, CardDealer.GetStartingDeck(4, 4, 1, RoleType.Undead)),
+            () => new Monster ("Skeleton Archer", new Role {
+                RoleType = RoleType.Undead,
+                Strength = 1,
+                Dexterity = 5,
+                Constitution = 2,
+                Intelligence = 1
+            }, CardDealer.GetStartingDeck(4, 4, 2, RoleType.Undead)),
+            () => new Monster ("Skeleton Mage", new Role {
+                RoleType = RoleType.Undead,
+                Strength = 1,
+                Dexterity = 1,
+                Constitution = 2,
+                Intelligence = 5
+            }, CardDealer.GetStartingDeck(4, 4, 2, RoleType.Undead))
         };
 
         private static List<Func<Monster>> demons = new List<Func<Monster>> {
@@ -79,21 +103,23 @@ namespace to_the_moon
         };
 
         public static Monster GetRandomMonsterByType(RoleType role, int level)
-        {            
+        {
             switch (role)
             {
                 case RoleType.Beast:
-                    return OptionPicker.PickRandomOption<Func<Monster>>(beasts)();                    
+                    return OptionPicker.PickRandomOption<Func<Monster>>(beasts)();
                 case RoleType.Creep:
-                    return OptionPicker.PickRandomOption<Func<Monster>>(creeps)();   
+                    return OptionPicker.PickRandomOption<Func<Monster>>(creeps)();
                 case RoleType.Demon:
                     return OptionPicker.PickRandomOption<Func<Monster>>(demons)();
                 case RoleType.Elf:
                     return OptionPicker.PickRandomOption<Func<Monster>>(elves)();
+                case RoleType.Undead:
+                    return OptionPicker.PickRandomOption<Func<Monster>>(undeads)();
                 case RoleType.Boss:
                     return OptionPicker.PickRandomOption<Func<Monster>>(bosses)();
                 default:
-                    return OptionPicker.PickRandomOption<Func<Monster>>(beasts)();                    
+                    return OptionPicker.PickRandomOption<Func<Monster>>(beasts)();
             }
         }
     }

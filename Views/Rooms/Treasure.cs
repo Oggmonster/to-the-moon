@@ -16,14 +16,17 @@ namespace to_the_moon
             Console.WriteLine(title);
             Console.WriteLine();
             var artifact = LostTreasure.GetRandomArtifact();
-            Console.WriteLine($"You find {artifact.ToString()}. Do you want it?");
+            if (artifact == null) {
+                Console.WriteLine("Nothing here :(");
+                OptionPicker.AnyKeyToContinue();
+                return;
+            }
+            Console.WriteLine($"You find {artifact.ToString()}. Do you want to keep it?");
             if (OptionPicker.ConfirmPrompt()) {
                 player.Artifacts.Add(artifact);
                 Console.WriteLine($"{artifact.Name} added");
             }
-            Console.WriteLine("Press any key to continue");
-            Console.ReadKey();
-            Console.Clear();
+            OptionPicker.AnyKeyToContinue();
         }
 
     }
