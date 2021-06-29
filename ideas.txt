@@ -23,6 +23,8 @@ games based around stocks - all enemies are different stocks.
 
 - summon minions
 
+- unique, rare, elite and bosses can summon common minions - of same type.
+
 
 
 

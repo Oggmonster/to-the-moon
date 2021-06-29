@@ -15,6 +15,7 @@ namespace to_the_moon
         public Role Role { get; set; }
         public CombatState CombatState { get; set; }        
         public List<Artifact> Artifacts { get; set; }
+        public List<Monster> Minions { get; set; }
         public virtual void SetHealth(int constitution)
         {
             var hp = (constitution * 2) + 5;
@@ -30,6 +31,7 @@ namespace to_the_moon
             CombatState = new CombatState(Role);
             SetHealth(role.Constitution);
             Artifacts = new List<Artifact>();
+            Minions = new List<Monster>();
         }
 
         public int CalculateDamage(int damage, int boost)
@@ -73,6 +75,7 @@ namespace to_the_moon
             Shield = 0;
             Deck.NewCombat();
             CombatState = new CombatState(Role);
+            Minions = new List<Monster>();
             ApplyArtifacts();
         }
 

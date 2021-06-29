@@ -8,7 +8,6 @@ namespace to_the_moon
         Cleric,
         Beast,
         Elemental,
-        Necromancer,
         Troll,
         Demon,
         Creep,

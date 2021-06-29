@@ -27,7 +27,7 @@ namespace to_the_moon
             {
                 var index = MonsterTypes.Count == 1 ? 0 : rnd.Next(0, MonsterTypes.Count);
                 var monsterType = MonsterTypes[index];
-                monsters.Add(MonsterData.GetRandomMonsterByType(monsterType, level));                
+                monsters.Add(MonsterData.GetRandomMonsterByType(monsterType));                
             }
             return monsters;
         }        

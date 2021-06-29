@@ -495,9 +495,85 @@ namespace to_the_moon
             },
         };
 
+        private static RoleType GetRandomRoleType() {
+            return OptionPicker.PickRandomOption<RoleType>(new List<RoleType> {
+                        RoleType.Beast,
+                        RoleType.Undead,
+                        RoleType.Creep,
+                        RoleType.Demon,
+                        RoleType.Dragon,
+                        RoleType.Elemental,
+                        RoleType.Elf,
+                        RoleType.Troll
+                    });
+        }
+
+        private static RoleType GetSummonRoleType(RoleType roleType)
+        {
+            switch (roleType)
+            {
+                case RoleType.Warrior:
+                case RoleType.Ranger:
+                case RoleType.Cleric:
+                case RoleType.Mage:
+                case RoleType.Boss:
+                    return GetRandomRoleType();              
+                default:
+                    return roleType;
+            }
+        }
+
+        private static List<Func<Card>> summons = new List<Func<Card>> {
+            () =>
+            new Card ("Get over here") {
+                Cost = 1,
+                Description = "Summon 1 monster",
+                CardType = CardType.Summon,
+                Execute = (attacker, _) => {
+                    var roleType = GetSummonRoleType(attacker.Role.RoleType);
+                    var monster = MonsterData.GetRandomMonsterByType(roleType);
+                    attacker.Minions.Add(monster);
+                    return new List<Card>();
+                }
+            },
+            () =>
+            new Card ("Bring on the twins") {
+                Cost = 2,
+                Description = "Summon 2 monsters",
+                CardType = CardType.Summon,
+                Execute = (attacker, _) => {
+                    var roleType = GetSummonRoleType(attacker.Role.RoleType);
+                    for (int i = 0; i < 2; i++)
+                    {
+                        attacker.Minions.Add(MonsterData.GetRandomMonsterByType(roleType));                        
+                    }                    
+                    return new List<Card>();
+                }
+            },
+            () =>
+            new Card ("Here comes trouble") {
+                Cost = 3,
+                Description = "Summon 3 monsters",
+                CardType = CardType.Summon,
+                Execute = (attacker, _) => {
+                    var roleType = GetSummonRoleType(attacker.Role.RoleType);
+                    for (int i = 0; i < 3; i++)
+                    {
+                        attacker.Minions.Add(MonsterData.GetRandomMonsterByType(roleType));                        
+                    }                    
+                    return new List<Card>();
+                }
+            }, 
+        };
+
         public static Card GetRandomWeaponCard()
         {
             return OptionPicker.PickRandomOption<Func<Card>>(weapons)();
+        }
+
+        public static Card GetRandomSummonCard()
+        {
+            return OptionPicker.PickRandomOption<Func<Card>>(summons)();
         }
 
         public static Card GetRandomCommonCard()

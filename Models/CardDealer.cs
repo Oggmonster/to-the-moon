@@ -6,7 +6,7 @@ namespace to_the_moon
 {
     public class CardDealer
     {
-        public static Deck GetStartingDeck(int commonCount, int roleCount, int weaponCount, RoleType roleType)
+        public static Deck GetStartingDeck(int commonCount, int roleCount, int weaponCount, RoleType roleType, int summonCount = 0)
         {            
             var cards = new List<Card>();
             for (int i = 0; i < commonCount; i++)
@@ -21,6 +21,10 @@ namespace to_the_moon
             {
                 cards.Add(CardData.GetRandomWeaponCard());
             }
+            for (int i = 0; i < summonCount; i++)
+            {
+                cards.Add(CardData.GetRandomSummonCard());
+            }
             return new Deck(cards);
         }
         
@@ -28,10 +32,16 @@ namespace to_the_moon
         {
             var cards = new List<Card>();
             cards.Add(CardData.GetRandomCommonCard());
-            cards.Add(CardData.GetRandomCommonCard());
             cards.Add(CardData.GetRandomCardByRole(role));
-            cards.Add(CardData.GetRandomCardByRole(role));
-            cards.Add(CardData.GetRandomWeaponCard());
+            var rnd = new Random();
+            var num = rnd.Next(0, 100);
+            if (num >= 70 && num <= 85) {
+                cards.Add(CardData.GetRandomWeaponCard());
+            }
+            if (num > 85) {
+                cards.Add(CardData.GetRandomSummonCard());
+            }
+            
             return cards;
         }  
 
