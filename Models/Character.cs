@@ -79,6 +79,11 @@ namespace to_the_moon
             ApplyArtifacts();
         }
 
+        public void AddMinion(Monster monster) {
+            monster.NewCombat();
+            Minions.Add(monster);
+        }
+
         public bool IsAlive()
         {
             return Health > 0;

@@ -61,19 +61,19 @@ namespace to_the_moon
             new Artifact ("Windforce") {
                 Description = "A legendary bow",
                 Execute = (state) => {
-                    state.Weapon = Armory.Windforce;
+                    state.RangedWeapon = Armory.Windforce;
                 }
             },
             new Artifact ("Excalibur") {
                 Description = "A mighty sword",
                 Execute = (state) => {
-                    state.Weapon = Armory.Excalibur;                    
+                    state.MeeleWeapon = Armory.Excalibur;                    
                 }
             },
             new Artifact ("Starfire") {
                 Description = "A magical wand",
                 Execute = (state) => {
-                    state.Weapon = Armory.Starfire;
+                    state.MagicWeapon = Armory.Starfire;
                 }
             },
         };

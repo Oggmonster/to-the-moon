@@ -26,6 +26,9 @@ namespace to_the_moon
             {
                 price = random.Next(minPrice, maxPrice);
                 card = i % 2 == 0 ? CardData.GetRandomCardByRole(roleType) : CardData.GetRandomCommonCard();
+                if (i % 7 == 0) {
+                    card = CardData.GetRandomSummonCard();
+                }
                 theGoods.Add(card.Id, (card, price));                
             }
             return theGoods;

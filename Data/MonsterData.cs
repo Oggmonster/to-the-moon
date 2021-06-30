@@ -223,7 +223,7 @@ namespace to_the_moon
                 Dexterity = 2,
                 Constitution = 15,
                 Intelligence = 6
-            }, CardDealer.GetStartingDeck(6, 8, 3, RoleType.Elf, 5),
+            }, CardDealer.GetStartingDeck(2, 2, 1, RoleType.Elf, 6),
             MonsterType.Boss)
         };
 

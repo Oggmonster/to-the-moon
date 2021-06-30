@@ -31,10 +31,17 @@ namespace to_the_moon
             Console.WriteLine();
             Console.WriteLine($"Hero: {player.ToString()}");
             Console.WriteLine();
+            if (player.Minions.Any()) {
+                Console.WriteLine("Minions:");
+                player.Minions.ForEach(e => Console.WriteLine(e.ToString()));
+                Console.WriteLine();
+            }
             Console.WriteLine("Evil ones:");
             enemies.ForEach(e => Console.WriteLine(e.ToString()));
             Console.WriteLine();
         }
+
+
 
         private static void EnemyTurn(List<Monster> enemies, Player player)
         {
@@ -43,6 +50,13 @@ namespace to_the_moon
                 return;
             }
             Console.WriteLine("ENEMY TURN");
+            var minions = new List<Monster>();
+            var targets = new List<Character> {
+                player,
+            };
+            if (player.Minions.Any()) {
+                targets.AddRange(player.Minions);
+            }
             foreach (var enemy in enemies.Where(e => e.IsAlive()))
             {
                 if (!player.IsAlive())
@@ -61,16 +75,52 @@ namespace to_the_moon
                     {
                         enemy.Energy -= card.Cost;
                         cards.Remove(card);
-                        var newCards = card.Execute(enemy, new List<Player> { player });
+                        var newCards = card.Execute(enemy, targets);
+                        if (newCards.Any())
+                        {
+                            cards.AddRange(newCards);
+                        }
+                        //check if enemy summoned any minions - convert them to enemies
+                        if (enemy.Minions.Any())
+                        {
+                            minions.AddRange(enemy.Minions);
+                            enemy.Minions = new List<Monster>();
+                        }
+                    }
+                }
+            }
+            enemies.AddRange(minions);
+            Console.WriteLine("ENEMY TURN OVER");
+        }
+
+        private static void MinionsTurn(IEnumerable<Monster> minions, IEnumerable<Monster> enemies)
+        {
+            if (!minions.Any(e => e.IsAlive()))
+            {
+                return;
+            }
+            Console.WriteLine("MINIONS TURN");
+            foreach (var minion in minions.Where(e => e.IsAlive()))
+            {
+                var cards = minion.Deck.Draw(2);
+                minion.NewTurn();
+                while (minion.Energy > 0 && cards.Count > 0)
+                {
+                    var card = OptionPicker.PickRandomOption<Card>(cards);
+                    cards.Remove(card);
+                    if (card.Cost <= minion.Energy)
+                    {
+                        minion.Energy -= card.Cost;
+                        cards.Remove(card);
+                        var newCards = card.Execute(minion, enemies);
                         if (newCards.Count > 0)
                         {
                             cards.AddRange(newCards);
                         }
                     }
                 }
-
             }
-            Console.WriteLine("ENEMY TURN OVER");
+            Console.WriteLine("MINIONS TURN OVER");
         }
 
         private static void PlayerTurn(Player player, IEnumerable<Monster> enemies)
@@ -104,6 +154,10 @@ namespace to_the_moon
                         cards.AddRange(newCards);
                     }
                 }
+            }
+            if (player.Minions.Count > 0 && enemies.Any(e => e.IsAlive())) 
+            {                
+                MinionsTurn(player.Minions, enemies);
             }
         }
 

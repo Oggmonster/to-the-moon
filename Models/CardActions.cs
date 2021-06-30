@@ -22,8 +22,8 @@ namespace to_the_moon
 
         public static Action<Character, IEnumerable<Character>, int, int> RangedAttack = (attacker, defenders, targetCount, skillDamage) =>
         {
-            var weaponDamage = attacker.CombatState.Weapon?.Type == WeaponType.Ranged ? 
-                attacker.CombatState.Weapon.Damage + attacker.CombatState.Dexterity 
+            var weaponDamage = attacker.CombatState.RangedWeapon != null ? 
+                attacker.CombatState.RangedWeapon.Damage + attacker.CombatState.Dexterity 
                 : 0;            
             var damage = attacker.CalculateDamage(skillDamage, weaponDamage);
             if (damage == 0) {
@@ -37,8 +37,8 @@ namespace to_the_moon
 
         public static Action<Character, IEnumerable<Character>, int, int> MeeleAttack = (attacker, defenders, targetCount, skillDamage) =>
         {
-            var weaponDamage = attacker.CombatState.Weapon?.Type == WeaponType.Meele ? 
-                attacker.CombatState.Weapon.Damage + attacker.CombatState.Strength 
+            var weaponDamage = attacker.CombatState.MeeleWeapon != null ? 
+                attacker.CombatState.MeeleWeapon.Damage + attacker.CombatState.Strength 
                 : 0;            
             var damage = attacker.CalculateDamage(skillDamage, weaponDamage);
             if (damage == 0) {
@@ -52,8 +52,8 @@ namespace to_the_moon
 
         public static Action<Character, IEnumerable<Character>, int, int> MagicAttack = (attacker, defenders, targetCount, skillDamage) =>
         {
-            var weaponDamage = attacker.CombatState.Weapon?.Type == WeaponType.Magic ? 
-                attacker.CombatState.Weapon.Damage + attacker.CombatState.Intelligence 
+            var weaponDamage = attacker.CombatState.MagicWeapon != null ? 
+                attacker.CombatState.MagicWeapon.Damage + attacker.CombatState.Intelligence 
                 : 0;            
             var damage = attacker.CalculateDamage(skillDamage, weaponDamage);
             if (damage == 0) {

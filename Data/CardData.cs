@@ -18,7 +18,7 @@ namespace to_the_moon
                 IsReplayable = false,
                 CardType = CardType.Weapon,
                 Execute = (attacker, _) => {
-                    attacker.CombatState.Weapon = Armory.LightCrossBow;
+                    attacker.CombatState.RangedWeapon = Armory.LightCrossBow;
                     Console.WriteLine($"{attacker.Name} equips {Armory.LightCrossBow.Name}");
                     return new List<Card>();
                 }
@@ -30,7 +30,7 @@ namespace to_the_moon
                 IsReplayable = false,
                 CardType = CardType.Weapon,
                 Execute = (attacker, _) => {
-                    attacker.CombatState.Weapon = Armory.HeavyCrossBow;
+                    attacker.CombatState.RangedWeapon = Armory.HeavyCrossBow;
                     Console.WriteLine($"{attacker.Name} equips {Armory.HeavyCrossBow.Name}");
                     return new List<Card>();
                 }
@@ -42,7 +42,7 @@ namespace to_the_moon
                 IsReplayable = false,
                 CardType = CardType.Weapon,
                 Execute = (attacker, _) => {
-                    attacker.CombatState.Weapon = Armory.ShortBow;
+                    attacker.CombatState.RangedWeapon = Armory.ShortBow;
                     Console.WriteLine($"{attacker.Name} equips {Armory.ShortBow.Name}");
                     return new List<Card>();
                 }
@@ -54,7 +54,7 @@ namespace to_the_moon
                 IsReplayable = false,
                 CardType = CardType.Weapon,
                 Execute = (attacker, _) => {
-                    attacker.CombatState.Weapon = Armory.CompositeBow;
+                    attacker.CombatState.RangedWeapon = Armory.CompositeBow;
                     Console.WriteLine($"{attacker.Name} equips {Armory.CompositeBow.Name}");
                     return new List<Card>();
                 }
@@ -66,7 +66,7 @@ namespace to_the_moon
                 IsReplayable = false,
                 CardType = CardType.Weapon,
                 Execute = (attacker, _) => {
-                    attacker.CombatState.Weapon = Armory.Dagger;
+                    attacker.CombatState.MeeleWeapon = Armory.Dagger;
                     Console.WriteLine($"{attacker.Name} equips {Armory.Dagger.Name}");
                     return new List<Card>();
                 }
@@ -78,7 +78,7 @@ namespace to_the_moon
                 IsReplayable = false,
                 CardType = CardType.Weapon,
                 Execute = (attacker, _) => {
-                    attacker.CombatState.Weapon = Armory.LongSword;
+                    attacker.CombatState.MeeleWeapon = Armory.LongSword;
                     Console.WriteLine($"{attacker.Name} wields {Armory.LongSword.Name}");
                     return new List<Card>();
                 }
@@ -90,7 +90,7 @@ namespace to_the_moon
                 IsReplayable = false,
                 CardType = CardType.Weapon,
                 Execute = (attacker, _) => {
-                    attacker.CombatState.Weapon = Armory.BroadAxe;
+                    attacker.CombatState.MeeleWeapon = Armory.BroadAxe;
                     Console.WriteLine($"{attacker.Name} equips {Armory.BroadAxe.Name}");
                     return new List<Card>();
                 }
@@ -102,7 +102,7 @@ namespace to_the_moon
                 IsReplayable = false,
                 CardType = CardType.Weapon,
                 Execute = (attacker, _) => {
-                    attacker.CombatState.Weapon = Armory.Bardiche;
+                    attacker.CombatState.MeeleWeapon = Armory.Bardiche;
                     Console.WriteLine($"{attacker.Name} equips {Armory.Bardiche.Name}");
                     return new List<Card>();
                 }
@@ -114,7 +114,7 @@ namespace to_the_moon
                 IsReplayable = false,
                 CardType = CardType.Weapon,
                 Execute = (attacker, _) => {
-                    attacker.CombatState.Weapon = Armory.Wand;
+                    attacker.CombatState.MagicWeapon = Armory.Wand;
                     Console.WriteLine($"{attacker.Name} equips {Armory.Wand.Name}");
                     return new List<Card>();
                 }
@@ -126,7 +126,7 @@ namespace to_the_moon
                 IsReplayable = false,
                 CardType = CardType.Weapon,
                 Execute = (attacker, _) => {
-                    attacker.CombatState.Weapon = Armory.Scepter;
+                    attacker.CombatState.MagicWeapon = Armory.Scepter;
                     Console.WriteLine($"{attacker.Name} equips {Armory.Scepter.Name}");
                     return new List<Card>();
                 }
@@ -138,7 +138,7 @@ namespace to_the_moon
                 IsReplayable = false,
                 CardType = CardType.Weapon,
                 Execute = (attacker, _) => {
-                    attacker.CombatState.Weapon = Armory.Staff;
+                    attacker.CombatState.MagicWeapon = Armory.Staff;
                     Console.WriteLine($"{attacker.Name} equips {Armory.Staff.Name}");
                     return new List<Card>();
                 }
@@ -531,8 +531,9 @@ namespace to_the_moon
                 CardType = CardType.Summon,
                 Execute = (attacker, _) => {
                     var roleType = GetSummonRoleType(attacker.Role.RoleType);
-                    var monster = MonsterData.GetRandomMonsterByType(roleType);
-                    attacker.Minions.Add(monster);
+                    var monster = MonsterData.GetRandomMonsterByType(roleType);                    
+                    attacker.AddMinion(monster);
+                    Console.WriteLine($"{monster.Name} joins the fight");
                     return new List<Card>();
                 }
             },
@@ -545,7 +546,9 @@ namespace to_the_moon
                     var roleType = GetSummonRoleType(attacker.Role.RoleType);
                     for (int i = 0; i < 2; i++)
                     {
-                        attacker.Minions.Add(MonsterData.GetRandomMonsterByType(roleType));                        
+                        var minion = MonsterData.GetRandomMonsterByType(roleType);
+                        Console.WriteLine($"{minion.Name} joins the fight");
+                        attacker.AddMinion(minion);                        
                     }                    
                     return new List<Card>();
                 }
@@ -559,7 +562,9 @@ namespace to_the_moon
                     var roleType = GetSummonRoleType(attacker.Role.RoleType);
                     for (int i = 0; i < 3; i++)
                     {
-                        attacker.Minions.Add(MonsterData.GetRandomMonsterByType(roleType));                        
+                        var minion = MonsterData.GetRandomMonsterByType(roleType);
+                        Console.WriteLine($"{minion.Name} joins the fight");
+                        attacker.AddMinion(minion);                        
                     }                    
                     return new List<Card>();
                 }

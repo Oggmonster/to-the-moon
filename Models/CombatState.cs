@@ -9,7 +9,9 @@ namespace to_the_moon
         public int Dexterity { get; set; } //add to shield and ranged dmg
         public int Intelligence { get; set; } //add to spell damage
         public int Constitution { get; set; } //add to healing
-        public Weapon Weapon { get; set; }
+        public Weapon MeeleWeapon { get; set; }
+        public Weapon RangedWeapon { get; set; }
+        public Weapon MagicWeapon { get; set; }
         public List<Monster> Minions { get; set; }
 
         public CombatState(Role role) {
@@ -23,7 +25,7 @@ namespace to_the_moon
 
         public override string ToString()
         {
-            return $"weapon: {(Weapon == null ? "none" : Weapon.Name)} str: {Strength} dex: {Dexterity} int: {Intelligence} con: {Constitution}"; 
+            return $"meele: {(MeeleWeapon == null ? "none" : MeeleWeapon.Name)} ranged: {(RangedWeapon == null ? "none" : RangedWeapon.Name)} magic: {(MagicWeapon == null ? "none" : MagicWeapon.Name)} str: {Strength} dex: {Dexterity} int: {Intelligence} con: {Constitution}"; 
         }
     }
 }
