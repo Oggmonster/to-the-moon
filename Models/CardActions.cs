@@ -6,13 +6,19 @@ namespace to_the_moon
 {
     public class CardActions
     {
-        private static List<Character> FindTargets(IEnumerable<Character> defenders, int targetCount)
+        private static List<Character> FindTargets(Character attacker, IEnumerable<Character> defenders, int targetCount)
         {
             var targets = defenders.Where(d => d.IsAlive()).ToList();
             if (targets.Count == 1 ||
                 targets.Count == targetCount)
             {
                 return targets.ToList();
+            }
+            if (targetCount == 1 && typeof(Player).IsInstanceOfType(attacker)) {
+                Console.WriteLine("Pick target:");
+                return new List<Character> {
+                    OptionPicker.PickOption<Character>(targets)
+                };
             }
             var take = Math.Min(targets.Count, targetCount);
             var rnd = new Random();
@@ -30,7 +36,7 @@ namespace to_the_moon
                 Console.WriteLine($"{attacker.Name} shoots but hits nothing but air");
                 return;
             }            
-            var targets = FindTargets(defenders, targetCount);
+            var targets = FindTargets(attacker, defenders, targetCount);
             targets.ForEach(t => Console.WriteLine($"{attacker.Name} shoots {t.Name} with {damage} dmg, {t.Name} takes {t.IncomingAttack(damage)} dmg"));
             targets.Where(e => !e.IsAlive()).ToList().ForEach(c => Console.WriteLine($"{c.Name} dies instantly"));
         };
@@ -45,7 +51,7 @@ namespace to_the_moon
                 Console.WriteLine($"{attacker.Name} swings and MISS! Embarrassing!");
                 return;
             }
-            var targets = FindTargets(defenders, targetCount);
+            var targets = FindTargets(attacker, defenders, targetCount);
             targets.ForEach(t => Console.WriteLine($"{attacker.Name} stabs {t.Name} with {damage} dmg, {t.Name} takes {t.IncomingAttack(damage)} dmg"));
             targets.Where(e => !e.IsAlive()).ToList().ForEach(c => Console.WriteLine($"{c.Name} bleeds to death"));
         };
@@ -60,7 +66,7 @@ namespace to_the_moon
                 Console.WriteLine($"{attacker.Name} didn't hurt anyone. Friendly fellow.");
                 return;
             }
-            var targets = FindTargets(defenders, targetCount);
+            var targets = FindTargets(attacker, defenders, targetCount);
             targets.ForEach(t => Console.WriteLine($"{attacker.Name} blasts {t.Name} with {damage} dmg, {t.Name} takes {t.IncomingAttack(damage)} dmg"));
             targets.Where(e => !e.IsAlive()).ToList().ForEach(c => Console.WriteLine($"{c.Name} explodes in a bloody mess"));
         };

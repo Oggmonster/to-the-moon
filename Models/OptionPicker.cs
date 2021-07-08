@@ -1,21 +1,25 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Spectre.Console;
 
 namespace to_the_moon
 {
     public class OptionPicker
     {
-        private static void DisplayOptions<T>(List<T> options, string exitOption) {
+        private static void DisplayOptions<T>(List<T> options, string exitOption)
+        {
             for (int i = 0; i < options.Count; i++)
             {
-                Console.WriteLine($"{i+1}. {options[i].ToString()}");
+                Console.WriteLine($"{i + 1}. {options[i].ToString()}");
             }
-            if (!string.IsNullOrEmpty(exitOption)) {
+            if (!string.IsNullOrEmpty(exitOption))
+            {
                 Console.WriteLine($"0. {exitOption}");
             }
 
         }
+        /*
         public static T PickOption<T>(List<T> options, string prompt = "Choose: ", string exitOption = "") {
             DisplayOptions<T>(options, exitOption);
             Console.Write(prompt);            
@@ -35,12 +39,27 @@ namespace to_the_moon
             Console.WriteLine("Not a valid option - please enter a number - try again");
             return PickOption(options);
         }
+        */
 
-        public static T PickRandomOption<T>(List<T> options) {
-            if (options.Count == 0) {
+        public static T PickOption<T>(List<T> options, string prompt = "Choose: ", string exitOption = "")
+        {            
+            if (string.IsNullOrEmpty(exitOption)) {
+                return AnsiConsole.Prompt(new SelectionPrompt<T>().PageSize(15).AddChoices(options));
+            }
+            var stringOptions = options.Select(o => o.ToString()).ToList();
+            stringOptions.Add(exitOption);
+            var option = AnsiConsole.Prompt(new SelectionPrompt<string>().PageSize(15).AddChoices(stringOptions));
+            return options.FirstOrDefault(o => o.ToString() == option);
+        }
+        
+        public static T PickRandomOption<T>(List<T> options)
+        {
+            if (options.Count == 0)
+            {
                 return default(T);
             }
-            if (options.Count == 1) {
+            if (options.Count == 1)
+            {
                 return options.First();
             }
             var random = new Random();
@@ -48,16 +67,18 @@ namespace to_the_moon
             return options[index];
         }
 
-        public static bool ConfirmPrompt() {
+        public static bool ConfirmPrompt()
+        {
             var options = new List<string> {
-                "Yes", 
+                "Yes",
                 "No"
             };
             var option = PickOption<string>(options);
             return option == "Yes";
         }
 
-        public static void AnyKeyToContinue() {
+        public static void AnyKeyToContinue()
+        {
             Console.WriteLine("Press any key to continue");
             Console.ReadKey();
             Console.Clear();

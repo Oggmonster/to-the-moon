@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using Spectre.Console;
 
 namespace to_the_moon
 {
@@ -25,23 +27,60 @@ namespace to_the_moon
 ";
         //stepcount 15 == boss
 
-        private static void ShowStats(Player player, List<Monster> enemies)
+        private static Table GetCharacterTable(List<Character> characters, string color = "white")
         {
-            Console.WriteLine("STATS:");
-            Console.WriteLine();
-            Console.WriteLine($"Hero: {player.ToString()}");
-            Console.WriteLine();
-            if (player.Minions.Any()) {
-                Console.WriteLine("Minions:");
-                player.Minions.ForEach(e => Console.WriteLine(e.ToString()));
-                Console.WriteLine();
+
+            var table = new Table();
+
+            //hp: 40/40 def: 0 Ranger (meele: none ranged: none magic: none str: 2 dex: 7 int: 2 con: 2)
+
+            table.AddColumn("");
+            table.AddColumn("hp");
+            table.AddColumn("def");
+            table.AddColumn("str");
+            table.AddColumn("dex");
+            table.AddColumn("int");
+            table.AddColumn("con");
+            table.AddColumn("mel");
+            table.AddColumn("rgd");
+            table.AddColumn("mag");
+
+            foreach (var c in characters)
+            {
+                var columns = new List<string> {
+                    c.Name,
+                    $"{c.Health}/{c.MaxHealth}",
+                    c.Shield.ToString(),
+                    c.CombatState.Strength.ToString(),
+                    c.CombatState.Dexterity.ToString(),
+                    c.CombatState.Intelligence.ToString(),
+                    c.CombatState.Constitution.ToString(),
+                    c.CombatState.MeeleWeapon?.Name,
+                    c.CombatState.RangedWeapon?.Name,
+                    c.CombatState.MagicWeapon?.Name
+                };
+                var markups = columns.Select(s => new Markup($"[{color}]{s}[/]"));
+                table.AddRow(markups);
             }
-            Console.WriteLine("Evil ones:");
-            enemies.ForEach(e => Console.WriteLine(e.ToString()));
-            Console.WriteLine();
+            table.Border(TableBorder.Ascii);
+            table.Expand();
+            
+            return table;
         }
-
-
+        private static void ShowStats(Player player, List<Monster> enemies)
+        {   
+            var goodOnes = new List<Character>();
+            goodOnes.Add(player);
+            goodOnes.AddRange(player.Minions);
+            var evilOnes = new List<Character>();
+            evilOnes.AddRange(enemies);
+            var heroTable = GetCharacterTable(goodOnes, "green");
+            var enemyTable = GetCharacterTable(evilOnes, "red");
+            heroTable.Title = new TableTitle("Good ones", new Style( Color.DarkGoldenrod));
+            enemyTable.Title = new TableTitle("Evil", new Style( Color.Red1));             
+            AnsiConsole.Render(heroTable);
+            AnsiConsole.Render(enemyTable);
+        }
 
         private static void EnemyTurn(List<Monster> enemies, Player player)
         {
@@ -54,7 +93,8 @@ namespace to_the_moon
             var targets = new List<Character> {
                 player,
             };
-            if (player.Minions.Any()) {
+            if (player.Minions.Any())
+            {
                 targets.AddRange(player.Minions);
             }
             foreach (var enemy in enemies.Where(e => e.IsAlive()))
@@ -88,6 +128,8 @@ namespace to_the_moon
                         }
                     }
                 }
+                Console.WriteLine();
+                Thread.Sleep(2000);
             }
             enemies.AddRange(minions);
             Console.WriteLine("ENEMY TURN OVER");
@@ -119,6 +161,8 @@ namespace to_the_moon
                         }
                     }
                 }
+                Console.WriteLine();
+                Thread.Sleep(2000);
             }
             Console.WriteLine("MINIONS TURN OVER");
         }
@@ -155,8 +199,8 @@ namespace to_the_moon
                     }
                 }
             }
-            if (player.Minions.Count > 0 && enemies.Any(e => e.IsAlive())) 
-            {                
+            if (player.Minions.Count > 0 && enemies.Any(e => e.IsAlive()))
+            {
                 MinionsTurn(player.Minions, enemies);
             }
         }

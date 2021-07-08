@@ -6,4 +6,8 @@
     <RootNamespace>to_the_moon</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Spectre.Console" Version="0.40.0" />
+  </ItemGroup>
+
 </Project>
